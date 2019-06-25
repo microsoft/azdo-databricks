@@ -1,0 +1,39 @@
+{
+    "id": "3830AA71-0BFB-45BD-AE00-6E82C877DEAE",
+    "name": "configuredatabricks",
+    "friendlyName": "Configure Databricks",
+    "description": "Configure Databricks CLI",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Ricardo Serradas",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "preview": true,
+    "instanceNameFormat": "Configure Databricks CLI",
+    "inputs": [
+        {
+            "name": "url",
+            "type": "string",
+            "label": "Workspace URL",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The root URL of your Databricks Workspace (e.g., https://westus.azuredatabricks.net)"
+        },
+        {
+            "name": "token",
+            "type": "string",
+            "label": "Access Token",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The access token from your user profile on Azure Databricks"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "index.js"
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "id": "5AB0C91F-182C-4CC9-9098-6EDCC91F3134",
+    "name": "deploynotebooks",
+    "friendlyName": "Deploy Databricks Notebooks",
+    "description": "Recursively deploys Notebooks from given folder to a Databricks Workspace",
+    "helpMarkDown": "",
+    "category": "Deploy",
+    "author": "Ricardo Serradas",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "preview": true,
+    "instanceNameFormat": "Deploy Notebooks to Workspace",
+    "inputs": [
+        {
+            "name": "notebooksFolderPath",
+            "type": "filePath",
+            "label": "Notebooks folder",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Specify the path to the folder that contains the Notebooks to be published to the workspace."
+        },
+        {
+            "name": "workspaceFolder",
+            "type": "string",
+            "label": "Workspace folder",
+            "defaultValue": "/Shared",
+            "required": true,
+            "helpMarkDown": "Specify the target path to publish the Notebooks on the Workspace. Defaults to `/Shared`."
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "index.js"
+        }
+    }
+}

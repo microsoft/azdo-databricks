@@ -1,0 +1,20 @@
+{
+  "name": "deploynotebooks",
+  "version": "0.1.0",
+  "description": "A Pipeline task for deploying notebooks from a given folder to a Databricks workspace",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && mocha tests/_suite.js"
+  },
+  "author": "Ricardo Serradas",
+  "license": "MIT",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.8",
+    "@types/q": "^1.5.2"
+  }
+}

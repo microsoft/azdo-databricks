@@ -1,0 +1,13 @@
+{
+    "name": "__JobName__",
+    "new_cluster": {
+        "spark_version": "5.3.x-scala2.11",
+        "node_type_id": "Standard_DS3_v2",
+        "num_workers": 2
+    },
+    "timeout_seconds": 3600,
+    "max_retries": 1,
+    "notebook_task": {
+        "notebook_path": "__NotebookPath__"
+    }
+}

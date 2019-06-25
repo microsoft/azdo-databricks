@@ -1,0 +1,84 @@
+{
+    "manifestVersion": 1,
+    "id": "azdo-databricks",
+    "name": "DevOps for Azure Databricks",
+    "version": "0.1.12",
+    "publisher": "ricardoserradasmsft",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "A set of Pipeline tasks to help add DevOps practices to a Databricks development cycle.",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "content": {
+        "details": {
+            "path": "README.md"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microsoft/azdo-databricks"
+    },
+    "galleryFlags": [
+        "Preview"
+    ],
+    "files": [
+        {
+            "path": "tasks/DeployNotebooksTask"
+        },
+        {
+            "path": "tasks/ConfigureDatabricks"
+        },
+        {
+            "path": "tasks/ExecuteNotebook"
+        },
+        {
+            "path": "tasks/WaitExecution"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "azdo-databricks-deploynotebooks",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/DeployNotebooksTask"
+            }
+        },
+        {
+            "id": "azdo-databricks-configuredatabricks",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/ConfigureDatabricks"
+            }
+        },
+        {
+            "id": "azdo-databricks-executenotebook",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/ExecuteNotebook"
+            }
+        },
+        {
+            "id": "azdo-databricks-waitexecution",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/WaitExecution"
+            }
+        }
+    ]
+}

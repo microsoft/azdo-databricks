@@ -1,0 +1,9 @@
+{
+    "name": "__JobName__",
+    "existing_cluster_id": "__ClusterId__",
+    "timeout_seconds": 3600,
+    "max_retries": 1,
+    "notebook_task": {
+        "notebook_path": "__NotebookPath__"
+    }
+}

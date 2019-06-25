@@ -1,0 +1,32 @@
+{
+  "name": "executenotebook",
+  "version": "0.1.0",
+  "description": "Invokes a Databricks Notebook execution from a Workspace",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/azdo-databricks.git"
+  },
+  "keywords": [
+    "azdo",
+    "devops",
+    "databricks",
+    "data"
+  ],
+  "author": "Ricardo Serradas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/microsoft/azdo-databricks/issues"
+  },
+  "homepage": "https://github.com/microsoft/azdo-databricks#readme",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.8",
+    "@types/q": "^1.5.2"
+  }
+}

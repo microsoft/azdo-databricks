@@ -1,0 +1,47 @@
+{
+    "id": "AC263826-C64E-4F2D-B7CE-5F7E777FD8BC",
+    "name": "executenotebook",
+    "friendlyName": "Execute Databricks Notebook",
+    "description": "Invokes a Databricks Notebook execution from a Workspace",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Ricardo Serradas",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "preview": true,
+    "instanceNameFormat": "Execute $(notebookPath)",
+    "inputs": [
+        {
+            "name": "notebookPath",
+            "type": "string",
+            "label": "Notebook path (at workspace)",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The path to the Notebook to be executed (e.g., `/Shared/MyNotebook`)."
+        },
+        {
+            "name": "existingClusterId",
+            "type": "string",
+            "label": "Existing Cluster ID",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The ID of an existing cluster to run this Notebook on."
+        },
+        {
+            "name": "executionParams",
+            "type": "multiLine",
+            "label": "Notebook parameters",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The parameters to override the ones defined on the Job Configuration File. These will be used on this notebook execution, and should be provided in JSON. i.e., `{\\\"myParameter\\\":\\\"myValue\\\"}`. Quotes should be preceeded by backslash."
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "executeNotebook.js"
+        }
+    }
+}

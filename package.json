@@ -1,0 +1,43 @@
+{
+  "name": "azdo-databricks",
+  "version": "0.1.0",
+  "description": "A set of Pipeline tasks to help add DevOps practices to a Databricks development cycle.",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.8.0",
+    "recursive-install": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.8",
+    "@types/q": "^1.5.2",
+    "tfx-cli": "^0.7.6"
+  },
+  "scripts": {
+    "recursive-install": "npm-recursive-install",
+    "build.deployNotebook": "tsc -p ./tasks/DeployNotebooksTask/DeployNotebooksTaskV1",
+    "build.configureDatabricks": "tsc -p ./tasks/ConfigureDatabricks/ConfigureDatabricksV1",
+    "build.executeNotebook": "tsc -p ./tasks/ExecuteNotebook/ExecuteNotebookV1",
+    "build.waitExecution": "tsc -p ./tasks/WaitExecution/WaitExecutionV1",
+    "build": "npm run recursive-install && npm run build.deployNotebook && npm run build.configureDatabricks && npm run build.executeNotebook && npm run build.waitExecution",
+    "test.deployNotebook": "npm run build.deployNotebook && mocha ./DeployNotebooksTask/DeployNotebooksTaskV1/tests/_suite.js",
+    "test": "npm run test.deployNotebook",
+    "package.dev": "npm run test && tfx extension create --manifest-globs vss-extension.json --overrides-file --output-path out",
+    "package": "npm run build && tfx extension create --manifest-globs vss-extension.json --overrides-file --output-path out"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/azdo-databricks.git"
+  },
+  "keywords": [
+    "azdo",
+    "devops",
+    "databricks",
+    "data"
+  ],
+  "author": "Ricardo Serradas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/microsoft/azdo-databricks/issues"
+  },
+  "homepage": "https://github.com/microsoft/azdo-databricks#readme"
+}

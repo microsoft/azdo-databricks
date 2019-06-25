@@ -1,0 +1,31 @@
+name: 0.4$(Rev:.r)
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "10.x"
+    displayName: "Install Node.js"
+
+  - script: |
+      npm install
+    displayName: "Install root NPM dependencies"
+
+  - script: |
+      npm run package
+    displayName: "Build and package"
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: "vsix"
+      targetPath: "out"
+    displayName: "Publish vsix"
