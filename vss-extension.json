@@ -8,7 +8,10 @@
         {
             "id": "Microsoft.VisualStudio.Services"
         }
-    ],    
+    ],
+    "icons": {
+        "default": "images/logo.png"
+    },
     "description": "A set of Pipeline tasks to help add DevOps practices to a Databricks development cycle.",
     "categories": [
         "Azure Pipelines"
