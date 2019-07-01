@@ -28,6 +28,25 @@ The following steps are performed:
 - Writes a configuration file at `~/.databrickscfg` so the CLI will know which
 Databricks Workspace to connect to.
 
+#### Important: What is done with your Databricks PAT?
+
+> Your Databricks Personal Access Token (PAT) is used to grant access to your
+> Databricks Workspace from the Azure DevOps agent which is running your
+> pipeline, either being it Private or
+> [Hosted](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops).
+>
+> Given that the Microsoft Hosted Agents are discarded after one use, your PAT -
+> which was used to create the `~/.databrickscfg` - will also be discarded.
+> This means that your PAT will not be used for anything else other than
+> running your own pipeline.
+
+#### Store your PAT as a variable
+
+It is strongly recommended that you **do not** pass your Personal Access Token
+as a plain text to the task. Instead, store it as a
+[Secret Variable](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#secret-variables)
+and use the variable reference on the task.
+
 ### Deploy Notebooks to Workspace
 
 This Pipeline task recursively deploys Notebooks from given folder to a Databricks Workspace.
