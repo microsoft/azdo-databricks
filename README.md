@@ -1,5 +1,7 @@
 # DevOps for Databricks extension
 
+[![Build Status](https://dev.azure.com/serradas-msft/DevOps%20for%20Databricks/_apis/build/status/azdo-databricks-CI?branchName=master)](https://dev.azure.com/serradas-msft/DevOps%20for%20Databricks/_build/latest?definitionId=61&branchName=master)
+
 ## Pre-requisites
 
 ### Use Python Version

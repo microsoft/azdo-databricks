@@ -11,7 +11,6 @@
         "Minor": 1,
         "Patch": 0
     },
-    "preview": true,
     "instanceNameFormat": "Wait for Notebook execution",
     "inputs": [],
     "execution": {
