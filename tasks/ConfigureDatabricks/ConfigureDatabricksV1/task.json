@@ -5,7 +5,7 @@
     "description": "Configure Databricks CLI",
     "helpMarkDown": "",
     "category": "Utility",
-    "author": "Ricardo Serradas",
+    "author": "Microsoft DevLabs",
     "version": {
         "Major": 0,
         "Minor": 1,

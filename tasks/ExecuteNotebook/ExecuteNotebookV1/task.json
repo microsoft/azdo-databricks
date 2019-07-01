@@ -5,7 +5,7 @@
     "description": "Invokes a Databricks Notebook execution from a Workspace",
     "helpMarkDown": "",
     "category": "Utility",
-    "author": "Ricardo Serradas",
+    "author": "Microsoft DevLabs",
     "version": {
         "Major": 0,
         "Minor": 1,
