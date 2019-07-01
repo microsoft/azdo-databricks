@@ -5,14 +5,13 @@
     "description": "Wait for a notebook execution to be finished and exposes the result as a task result",
     "helpMarkDown": "",
     "category": "Utility",
-    "author": "Ricardo Serradas",
+    "author": "Microsoft DevLabs",
     "version": {
         "Major": 0,
         "Minor": 1,
         "Patch": 0
     },
-    "preview": true,
-    "instanceNameFormat": "Wait Notebook execution",
+    "instanceNameFormat": "Wait for Notebook execution",
     "inputs": [],
     "execution": {
         "Node": {

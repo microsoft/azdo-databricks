@@ -1,5 +1,7 @@
 # DevOps for Databricks extension
 
+[![Build Status](https://dev.azure.com/serradas-msft/DevOps%20for%20Databricks/_apis/build/status/azdo-databricks-CI?branchName=master)](https://dev.azure.com/serradas-msft/DevOps%20for%20Databricks/_build/latest?definitionId=61&branchName=master)
+
 ## Pre-requisites
 
 ### Use Python Version
@@ -28,6 +30,25 @@ The following steps are performed:
 - Writes a configuration file at `~/.databrickscfg` so the CLI will know which
 Databricks Workspace to connect to.
 
+#### Important: What is done with your Databricks PAT?
+
+> Your Databricks Personal Access Token (PAT) is used to grant access to your
+> Databricks Workspace from the Azure DevOps agent which is running your
+> pipeline, either being it Private or
+> [Hosted](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops).
+>
+> Given that the Microsoft Hosted Agents are discarded after one use, your PAT -
+> which was used to create the `~/.databrickscfg` - will also be discarded.
+> This means that your PAT will not be used for anything else other than
+> running your own pipeline.
+
+#### Store your PAT as a variable
+
+It is strongly recommended that you **do not** pass your Personal Access Token
+as a plain text to the task. Instead, store it as a
+[Secret Variable](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#secret-variables)
+and use the variable reference on the task.
+
 ### Deploy Notebooks to Workspace
 
 This Pipeline task recursively deploys Notebooks from given folder to a Databricks Workspace.
@@ -54,10 +75,11 @@ default parameter values for the notebook. Must be specified in JSON format.
 
 #### Known issues
 
-- [Bug 1952](https://dev.azure.com/serradas-msft/DevOps%20for%20Databricks/_workitems/edit/1952): This task is currently failing on Windows with the following error message:
+- [Issue #1](https://github.com/microsoft/azdo-databricks/issues/1):
+This task is currently failing on Windows with the following error message:
   - `Error: JSONDecodeError: Invalid \escape: line 7 column 27 (char 181)`
 
-### Wait Notebook execution
+### Wait for Notebook execution
 
 Makes the Pipeline wait until the Notebook run - invoked by the previous task - finishes.
 

@@ -3,12 +3,15 @@
     "id": "azdo-databricks",
     "name": "DevOps for Azure Databricks",
     "version": "0.1.12",
-    "publisher": "ricardoserradasmsft",
+    "publisher": "riserrad",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
-    ],    
+    ],
+    "icons": {
+        "default": "images/logo.png"
+    },
     "description": "A set of Pipeline tasks to help add DevOps practices to a Databricks development cycle.",
     "categories": [
         "Azure Pipelines"
@@ -22,9 +25,6 @@
         "type": "git",
         "url": "https://github.com/microsoft/azdo-databricks"
     },
-    "galleryFlags": [
-        "Preview"
-    ],
     "files": [
         {
             "path": "tasks/DeployNotebooksTask"

@@ -34,7 +34,7 @@
     "databricks",
     "data"
   ],
-  "author": "Ricardo Serradas",
+  "author": "Microsoft DevLabs",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/microsoft/azdo-databricks/issues"

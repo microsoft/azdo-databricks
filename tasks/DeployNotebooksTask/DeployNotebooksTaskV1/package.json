@@ -7,7 +7,7 @@
     "build": "tsc",
     "test": "npm run build && mocha tests/_suite.js"
   },
-  "author": "Ricardo Serradas",
+  "author": "Microsoft DevLabs",
   "license": "MIT",
   "dependencies": {
     "azure-pipelines-task-lib": "^2.8.0"
