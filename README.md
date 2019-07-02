@@ -17,7 +17,6 @@ So far, this set of tasks were tested using the following Hosted Agents:
 
 - Hosted Ubuntu 1604
 - Hosted VS2017
-  - Has a know issue with the Execute Notebook task, which is described below
 
 ## Pipeline Tasks
 
