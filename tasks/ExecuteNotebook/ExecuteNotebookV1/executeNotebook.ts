@@ -40,6 +40,7 @@ class Notebook{
     public folder: string = "";
     public name: string = "";
     public params: string = "";
+    private fullPath: string = "";
 
     constructor(fullPath: string, params: string){
         var lastForwardSlashIndex = fullPath.lastIndexOf('/');
@@ -50,6 +51,7 @@ class Notebook{
         this.folder = notebookFolder;
         this.name = notebookName;
         this.params = params;
+        this.fullPath = fullPath;
     }
 
     isValid(){
@@ -140,7 +142,7 @@ class Notebook{
 
         templateContent = templateContent.replace("__ClusterId__", existingClusterId);
         templateContent = templateContent.replace("__JobName__", "AzDO Execution");
-        templateContent = templateContent.replace("__NotebookPath__", path.join(this.folder, this.name));
+        templateContent = templateContent.replace("__NotebookPath__", this.fullPath);
 
         fs.writeFileSync(jobConfigurationFile, templateContent, { 
             flag: "w", 
