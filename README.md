@@ -75,9 +75,9 @@ default parameter values for the notebook. Must be specified in JSON format.
 
 #### Known issues
 
-- [Issue #1](https://github.com/microsoft/azdo-databricks/issues/1):
-This task is currently failing on Windows with the following error message:
-  - `Error: JSONDecodeError: Invalid \escape: line 7 column 27 (char 181)`
+> Fortunately, no known issues so far. Please feel free to open a
+> [new issue](https://github.com/microsoft/azdo-databricks/issues)
+> on GitHub if you experience any problem.
 
 ### Wait for Notebook execution
 
