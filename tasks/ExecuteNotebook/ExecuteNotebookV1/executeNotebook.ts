@@ -138,7 +138,14 @@ class Notebook{
 
         templateContent = templateContent.replace("__ClusterId__", existingClusterId);
         templateContent = templateContent.replace("__JobName__", "AzDO Execution");
-        templateContent = templateContent.replace("__NotebookPath__", path.join(this.folder, this.name));
+
+        let notebookPath = path.join(this.folder, this.name);
+
+        if(tl.getPlatform() === tl.Platform.Windows){
+            notebookPath = notebookPath.replace('\\', '\\\\');
+        }
+
+        templateContent = templateContent.replace("__NotebookPath__", notebookPath);
 
         fs.writeFileSync(jobConfigurationFile, templateContent, { flag: "w" });
 
