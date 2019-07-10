@@ -37,6 +37,9 @@
         },
         {
             "path": "tasks/WaitExecution"
+        },
+        {
+            "path": "tasks/ConfigurenetRc"
         }
     ],
     "contributions": [
@@ -78,6 +81,16 @@
             ],
             "properties": {
                 "name": "tasks/WaitExecution"
+            }
+        },
+        {
+            "id": "azdo-databricks-configurenetrc",
+            "type":"ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/ConfigurenetRc"
             }
         }
     ]
