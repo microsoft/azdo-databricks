@@ -7,6 +7,16 @@
     "build": "tsc",
     "test": "npm run build && mocha tests/_suite.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/azdo-databricks.git"
+  },
+  "keywords": [
+    "azdo",
+    "devops",
+    "databricks",
+    "data"
+  ],
   "author": "Microsoft DevLabs",
   "license": "MIT",
   "dependencies": {
