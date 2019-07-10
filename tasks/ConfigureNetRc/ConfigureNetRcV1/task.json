@@ -1,0 +1,30 @@
+{
+    "id": "88F82EA7-9B91-498B-8649-97B297732E7D",
+    "name": "configurenetrc",
+    "friendlyName": "Configure .netrc file",
+    "description": "Configure .netrc file to enable calls to the Databricks authenticated REST APIs",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Configure .netrc file",
+    "inputs": [
+        {
+            "name": "samplestring",
+            "type": "string",
+            "label": "Sample String",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "A sample string"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "index.js"
+        }
+    }
+}
