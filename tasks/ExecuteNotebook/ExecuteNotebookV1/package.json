@@ -2,7 +2,7 @@
   "name": "executenotebook",
   "version": "0.1.0",
   "description": "Invokes a Databricks Notebook execution from a Workspace",
-  "main": "index.js",
+  "main": "executeNotebook.js",
   "scripts": {
     "build": "tsc"
   },
