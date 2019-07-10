@@ -15,7 +15,7 @@ async function run() {
 
         bash.arg([
             fileName,
-            inputString
+            "'" + inputString + "'"
         ]);
 
         let options = <tr.IExecOptions>{
