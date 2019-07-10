@@ -14,12 +14,20 @@
     "instanceNameFormat": "Configure .netrc file",
     "inputs": [
         {
-            "name": "samplestring",
+            "name": "url",
             "type": "string",
-            "label": "Sample String",
+            "label": "Workspace URL",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "A sample string"
+            "helpMarkDown": "The root URL of your Databricks Workspace (e.g., https://westus.azuredatabricks.net)"
+        },
+        {
+            "name": "token",
+            "type": "string",
+            "label": "Access Token",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The access token from your user profile on Azure Databricks. Make sure to use Secret Variables."
         }
     ],
     "execution": {

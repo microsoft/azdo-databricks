@@ -6,7 +6,8 @@ async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
         
-        const inputString: string = tl.getInput('samplestring', true);
+        const url: string = tl.getInput('url', true);
+        const token: string = tl.getInput('token', true);
         
         let bashPath: string = tl.which('bash', true);
         let fileName = 'bashfile.sh'
@@ -15,7 +16,8 @@ async function run() {
 
         bash.arg([
             fileName,
-            "'" + inputString + "'"
+            url,
+            token
         ]);
 
         let options = <tr.IExecOptions>{
