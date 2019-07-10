@@ -39,7 +39,7 @@
             "path": "tasks/WaitExecution"
         },
         {
-            "path": "tasks/ConfigurenetRc"
+            "path": "tasks/ConfigureNetRc"
         }
     ],
     "contributions": [
@@ -90,7 +90,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "tasks/ConfigurenetRc"
+                "name": "tasks/ConfigureNetRc"
             }
         }
     ]
