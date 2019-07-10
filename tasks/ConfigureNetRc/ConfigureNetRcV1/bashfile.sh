@@ -1,6 +1,6 @@
 #!/bin/bash
-$DATABRICKS_HOST = $1
-$DATABRICKS_TOKEN = $2
+$DATABRICKS_HOST="$1"
+$DATABRICKS_TOKEN="$2"
 
 mydata=`echo $DATABRICKS_HOST | cut -c 9-`
     
