@@ -86,3 +86,4 @@ npm-debug.log
 .override-file.json
 tasks/ExecuteNotebook/ExecuteNotebookV1/job-configuration.json
 .taskkey
+tasks/ConfigureNetRc/ConfigureNetRcV1/configureNetRc.js

@@ -18,12 +18,15 @@ async function run() {
             inputString
         ]);
 
-        let options = <tr.IExecOptions><unknown>{
-            cwd: path.join(__dirname, 'task.json'),
+        let options = <tr.IExecOptions>{
+            cwd: __dirname,
+            env: {},
+            silent: false,
             failOnStdErr: false,
             errStream: process.stdout,
             outStream: process.stdout,
-            ignoreReturnCode: true
+            ignoreReturnCode: true,
+            windowsVerbatimArguments: false
         };
 
         // Listen for stderr.
