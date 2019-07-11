@@ -1,0 +1,30 @@
+{
+    "id": "7BC87BAA-E828-4B94-81D5-1DFD0FC736AF",
+    "name": "startcluster",
+    "friendlyName": "Start a Databricks Cluster",
+    "description": "Make sure a Databricks Cluster is started",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Starting Cluster $(clusterid)",
+    "inputs": [
+        {
+            "name": "clusterid",
+            "type": "string",
+            "label": "Cluster ID",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The ID of the Cluster to be started"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "startCluster.js"
+        }
+    }
+}

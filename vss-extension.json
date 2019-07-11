@@ -40,6 +40,9 @@
         },
         {
             "path": "tasks/ConfigureNetRc"
+        },
+        {
+            "path": "tasks/StartCluster"
         }
     ],
     "contributions": [
@@ -91,6 +94,16 @@
             ],
             "properties": {
                 "name": "tasks/ConfigureNetRc"
+            }
+        },
+        {
+            "id": "azdo-databricks-startcluster",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/StartCluster"
             }
         }
     ]
