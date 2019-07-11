@@ -15,7 +15,7 @@ async function run() {
         const clusterid: string = tl.getInput('clusterid', true);
         
         let bashPath: string = tl.which('bash', true);
-        let fileName = 'startCluster.sh'
+        let fileName = 'compileinstalljar.sh'
         let filePath = path.join(__dirname, fileName);
 
         let bash = tl.tool(bashPath);
