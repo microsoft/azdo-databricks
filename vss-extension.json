@@ -51,6 +51,9 @@
             "path": "tasks/Scala/InstallSpark"
         },
         {
+            "path": "tasks/Scala/RunSbtTests"
+        },
+        {
             "path": "tasks/Scala/UninstallCodeFromCluster"
         },
         {
@@ -139,6 +142,16 @@
             ],
             "properties": {
                 "name": "tasks/Scala/InstallSpark"
+            }
+        },
+        {
+            "id": "azdo-databricks-runsbttests",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/RunSbtTests"
             }
         },
         {
