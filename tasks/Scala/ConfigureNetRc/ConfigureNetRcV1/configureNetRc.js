@@ -17,7 +17,8 @@ function run() {
             const url = tl.getInput('url', true);
             const token = tl.getInput('token', true);
             let bashPath = tl.which('bash', true);
-            let fileName = 'bashfile.sh';
+            let fileName = 'configurenetrc.sh';
+            let filePath = path.join(__dirname, fileName);
             let bash = tl.tool(bashPath);
             bash.arg([
                 fileName,

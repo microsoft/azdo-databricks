@@ -20,7 +20,7 @@ function run() {
             }
             const clusterid = tl.getInput('clusterid', true);
             let bashPath = tl.which('bash', true);
-            let fileName = 'startCluster.sh';
+            let fileName = 'uninstallcodefromcluster.sh';
             let filePath = path.join(__dirname, fileName);
             let bash = tl.tool(bashPath);
             bash.arg([

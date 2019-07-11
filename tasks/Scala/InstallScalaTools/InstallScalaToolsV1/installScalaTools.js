@@ -16,9 +16,10 @@ function run() {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
             let bashPath = tl.which('bash', true);
             let fileName = 'installScalaTools.sh';
+            let filePath = path.join(__dirname, fileName);
             let bash = tl.tool(bashPath);
             bash.arg([
-                fileName
+                filePath
             ]);
             let options = {
                 cwd: __dirname,
