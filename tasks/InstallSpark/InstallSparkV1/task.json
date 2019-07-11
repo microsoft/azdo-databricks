@@ -1,0 +1,21 @@
+{
+    "id": "18868996-814B-48E1-9B9C-E631954A0F6C",
+    "name": "installspark",
+    "friendlyName": "Install Spark",
+    "description": "Installs Spark on the Agent",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Install Spark",
+    "inputs": [],
+    "execution": {
+        "Node": {
+            "target": "installSpark.js"
+        }
+    }
+}

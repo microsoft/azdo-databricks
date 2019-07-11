@@ -1,0 +1,32 @@
+{
+  "name": "installspark",
+  "version": "1.0.0",
+  "description": "Install Spark on the Agent",
+  "main": "installSpark.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/azdo-databricks.git"
+  },
+  "keywords": [
+    "azure",
+    "databricks",
+    "spark",
+    "devops"
+  ],
+  "author": "Microsoft DevLabs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/microsoft/azdo-databricks/issues"
+  },
+  "homepage": "https://github.com/microsoft/azdo-databricks#readme",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.6.2",
+    "@types/q": "^1.5.2"
+  }
+}

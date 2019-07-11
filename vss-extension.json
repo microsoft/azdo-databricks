@@ -46,6 +46,9 @@
         },
         {
             "path": "tasks/InstallScalaTools"
+        },
+        {
+            "path": "tasks/InstallSpark"
         }
     ],
     "contributions": [
@@ -117,6 +120,16 @@
             ],
             "properties": {
                 "name": "tasks/InstallScalaTools"
+            }
+        },
+        {
+            "id": "azdo-databricks-installspark",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/InstallSpark"
             }
         }
     ]
