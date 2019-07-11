@@ -49,6 +49,9 @@
         },
         {
             "path": "tasks/Scala/InstallSpark"
+        },
+        {
+            "path": "tasks/Scala/UninstallCodeFromCluster"
         }
     ],
     "contributions": [
@@ -130,6 +133,16 @@
             ],
             "properties": {
                 "name": "tasks/Scala/InstallSpark"
+            }
+        },
+        {
+            "id": "azdo-databricks-uninstallcodefromcluster",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/UninstallCodeFromCluster"
             }
         }
     ]

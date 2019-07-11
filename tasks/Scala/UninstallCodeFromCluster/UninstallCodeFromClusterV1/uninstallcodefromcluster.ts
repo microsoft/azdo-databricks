@@ -5,20 +5,24 @@ import tr = require('azure-pipelines-task-lib/toolrunner')
 async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
+
+        const workingDirectory: string = tl.getInput('workingDirectory', false);
+
+        if(workingDirectory != ''){
+            tl.cd(workingDirectory);
+        }
         
-        const url: string = tl.getInput('url', true);
-        const token: string = tl.getInput('token', true);
+        const clusterid: string = tl.getInput('clusterid', true);
         
         let bashPath: string = tl.which('bash', true);
-        let fileName = 'configurenetrc.sh'
+        let fileName = 'uninstallcodefromcluster.sh'
         let filePath = path.join(__dirname, fileName);
 
         let bash = tl.tool(bashPath);
 
         bash.arg([
-            fileName,
-            url,
-            token
+            filePath,
+            clusterid
         ]);
 
         let options = <tr.IExecOptions>{

@@ -1,0 +1,33 @@
+{
+  "name": "uninstallcodefromcluster",
+  "version": "1.0.0",
+  "description": "Removes old Spark code and reboots cluster",
+  "main": "uninstallcodefromcluster.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/azdo-databricks.git"
+  },
+  "keywords": [
+    "azure",
+    "databricks",
+    "devops",
+    "cluster",
+    "spark"
+  ],
+  "author": "Microsoft DevLabs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/microsoft/azdo-databricks/issues"
+  },
+  "homepage": "https://github.com/microsoft/azdo-databricks#readme",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.6.2",
+    "@types/q": "^1.5.2"
+  }
+}

@@ -16,11 +16,12 @@ async function run() {
         
         let bashPath: string = tl.which('bash', true);
         let fileName = 'startCluster.sh'
+        let filePath = path.join(__dirname, fileName);
 
         let bash = tl.tool(bashPath);
 
         bash.arg([
-            fileName,
+            filePath,
             clusterid
         ]);
 

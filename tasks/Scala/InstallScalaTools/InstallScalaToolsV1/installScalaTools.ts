@@ -8,11 +8,12 @@ async function run() {
         
         let bashPath: string = tl.which('bash', true);
         let fileName = 'installScalaTools.sh'
+        let filePath = path.join(__dirname, fileName);
 
         let bash = tl.tool(bashPath);
 
         bash.arg([
-            fileName
+            filePath
         ]);
 
         let options = <tr.IExecOptions>{
