@@ -1,0 +1,30 @@
+{
+    "id": "80B1D811-47F2-4574-B584-4326C5292F23",
+    "name": "compileinstalljar",
+    "friendlyName": "Compiles and Installs JAR using SBT",
+    "description": "Compiles and Installs JAR using SBT",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Compiles and Installs JAR on $(clusterid)",
+    "inputs": [
+        {
+            "name": "clusterid",
+            "type": "string",
+            "label": "Cluster ID",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The ID of the Cluster to be started"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "compileinstalljar.js"
+        }
+    }
+}

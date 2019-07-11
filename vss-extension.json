@@ -55,6 +55,9 @@
         },
         {
             "path": "tasks/Scala/WaitForClusterReboot"
+        },
+        {
+            "path": "tasks/Scala/CompileInstallJar"
         }
     ],
     "contributions": [
@@ -156,6 +159,16 @@
             ],
             "properties": {
                 "name": "tasks/Scala/WaitForClusterReboot"
+            }
+        },
+        {
+            "id": "azdo-databricks-compileinstalljar",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/CompileInstallJar"
             }
         }
     ]
