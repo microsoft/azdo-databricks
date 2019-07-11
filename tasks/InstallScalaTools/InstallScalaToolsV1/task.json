@@ -1,0 +1,21 @@
+{
+    "id": "5C5C32EE-52EE-4B91-9EF6-B48F965F30E2",
+    "name": "installscalatools",
+    "friendlyName": "Install Scala Tools",
+    "description": "Installs Java, Scala and SBT",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Install Scala Tools",
+    "inputs": [],
+    "execution": {
+        "Node": {
+            "target": "installScalaTools.js"
+        }
+    }
+}

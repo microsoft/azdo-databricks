@@ -43,6 +43,9 @@
         },
         {
             "path": "tasks/StartCluster"
+        },
+        {
+            "path": "tasks/InstallScalaTools"
         }
     ],
     "contributions": [
@@ -104,6 +107,16 @@
             ],
             "properties": {
                 "name": "tasks/StartCluster"
+            }
+        },
+        {
+            "id": "azdo-databricks-installscalatools",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/InstallScalaTools"
             }
         }
     ]
