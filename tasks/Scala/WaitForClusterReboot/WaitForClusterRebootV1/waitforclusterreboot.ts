@@ -6,6 +6,12 @@ async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
+        const workingDirectory: string = tl.getInput('workingDirectory', false);
+
+        if(workingDirectory != ''){
+            tl.cd(workingDirectory);
+        }
+
         const clusterid: string = tl.getInput('clusterid', true);
         
         let bashPath: string = tl.which('bash', true);

@@ -5,6 +5,12 @@ import tr = require('azure-pipelines-task-lib/toolrunner')
 async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
+
+        const workingDirectory: string = tl.getInput('workingDirectory', false);
+
+        if(workingDirectory != ''){
+            tl.cd(workingDirectory);
+        }
         
         const url: string = tl.getInput('url', true);
         const token: string = tl.getInput('token', true);

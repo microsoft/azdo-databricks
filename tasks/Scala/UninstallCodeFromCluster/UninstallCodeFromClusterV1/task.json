@@ -20,6 +20,14 @@
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "The ID of the Cluster to be uninstall spark code from"
+        },
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": ""
         }
     ],
     "execution": {

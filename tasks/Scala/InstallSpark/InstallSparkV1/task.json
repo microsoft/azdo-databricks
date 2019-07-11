@@ -12,7 +12,16 @@
         "Patch": 0
     },
     "instanceNameFormat": "Install Spark",
-    "inputs": [],
+    "inputs": [
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": ""
+        }
+    ],
     "execution": {
         "Node": {
             "target": "installSpark.js"

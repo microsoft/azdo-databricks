@@ -28,6 +28,14 @@
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "The access token from your user profile on Azure Databricks. Make sure to use Secret Variables."
+        },
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": ""
         }
     ],
     "execution": {

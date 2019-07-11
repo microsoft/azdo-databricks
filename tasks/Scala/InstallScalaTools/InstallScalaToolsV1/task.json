@@ -12,7 +12,16 @@
         "Patch": 0
     },
     "instanceNameFormat": "Install Scala Tools",
-    "inputs": [],
+    "inputs": [
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": ""
+        }
+    ],
     "execution": {
         "Node": {
             "target": "installScalaTools.js"
