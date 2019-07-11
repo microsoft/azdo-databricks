@@ -39,16 +39,16 @@
             "path": "tasks/WaitExecution"
         },
         {
-            "path": "tasks/ConfigureNetRc"
+            "path": "tasks/Scala/ConfigureNetRc"
         },
         {
-            "path": "tasks/StartCluster"
+            "path": "tasks/Scala/StartCluster"
         },
         {
-            "path": "tasks/InstallScalaTools"
+            "path": "tasks/Scala/InstallScalaTools"
         },
         {
-            "path": "tasks/InstallSpark"
+            "path": "tasks/Scala/InstallSpark"
         }
     ],
     "contributions": [
@@ -99,7 +99,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "tasks/ConfigureNetRc"
+                "name": "tasks/Scala/ConfigureNetRc"
             }
         },
         {
@@ -109,7 +109,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "tasks/StartCluster"
+                "name": "tasks/Scala/StartCluster"
             }
         },
         {
@@ -119,7 +119,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "tasks/InstallScalaTools"
+                "name": "tasks/Scala/InstallScalaTools"
             }
         },
         {
@@ -129,7 +129,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "tasks/InstallSpark"
+                "name": "tasks/Scala/InstallSpark"
             }
         }
     ]

@@ -9,16 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const tl = require("azure-pipelines-task-lib/task");
+const tl = require("azure-pipelines-task-lib");
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
+            const workingDirectory = tl.getInput('workingDirectory', false);
+            if (workingDirectory != '') {
+                tl.cd(workingDirectory);
+            }
+            const clusterid = tl.getInput('clusterid', true);
             let bashPath = tl.which('bash', true);
-            let fileName = 'installScalaTools.sh';
+            let fileName = 'startCluster.sh';
             let bash = tl.tool(bashPath);
             bash.arg([
-                fileName
+                fileName,
+                clusterid
             ]);
             let options = {
                 cwd: __dirname,

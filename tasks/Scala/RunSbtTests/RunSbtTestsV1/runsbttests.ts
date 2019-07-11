@@ -1,23 +1,25 @@
 import path = require('path')
-import tl = require('azure-pipelines-task-lib/task');
+import tl = require('azure-pipelines-task-lib');
 import tr = require('azure-pipelines-task-lib/toolrunner')
 
 async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
-        
-        const url: string = tl.getInput('url', true);
-        const token: string = tl.getInput('token', true);
-        
+
+        const workingDirectory: string = tl.getInput('workingDirectory', false);
+
+        if(workingDirectory != ''){
+            tl.cd(workingDirectory);
+        }
+                        
         let bashPath: string = tl.which('bash', true);
-        let fileName = 'bashfile.sh'
+        let fileName = 'runsbttests.sh'
+        let filePath = path.join(__dirname, fileName);
 
         let bash = tl.tool(bashPath);
 
         bash.arg([
-            fileName,
-            url,
-            token
+            filePath
         ]);
 
         let options = <tr.IExecOptions>{
