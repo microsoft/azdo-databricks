@@ -20,11 +20,19 @@
 #  - Asssumptions: Just one cluster to check
 #                  Add code for more than one cluster
 #=======================================================
+clusterid=$1
 lookfor=RUNNING
-clusterStatus=$(databricks clusters list | awk '{print $3}')
+#clusterStatus=$(databricks clusters list | awk '{print $3}')
+clusterStatus=$(databricks clusters get --cluster-id $clusterid | awk '{print $3}')
 if [ "$clusterStatus" != "$lookfor" ]
 then
    echo "cluster not running, so turn on"
+
+   curl -n -H "Content-Type: application/json" -X POST -d @- https://centralus.azuredatabricks.net/api/2.0/clusters/start <<JSON
+   {
+   "cluster_id": "$clusterid"
+   }
+   JSON
 else
    echo "cluster already running, so exit"
    exit 0
