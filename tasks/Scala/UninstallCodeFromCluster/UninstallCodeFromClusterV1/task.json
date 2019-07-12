@@ -27,8 +27,8 @@
             "label": "Library file name",
             "defaultValue": "sparkcode.jar",
             "required": true,
-            "helpMarkDown": "The JAR file name of the library to be installed on the cluster"
-        }
+            "helpMarkDown": "The JAR file name of the library to be uninstalled from the cluster"
+        },
         {
             "name": "workingDirectory",
             "type": "filePath",

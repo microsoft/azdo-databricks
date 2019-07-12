@@ -39,9 +39,6 @@
             "path": "tasks/WaitExecution"
         },
         {
-            "path": "tasks/Scala/ConfigureNetRc"
-        },
-        {
             "path": "tasks/Scala/StartCluster"
         },
         {
@@ -102,16 +99,6 @@
             ],
             "properties": {
                 "name": "tasks/WaitExecution"
-            }
-        },
-        {
-            "id": "azdo-databricks-configurenetrc",
-            "type":"ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "tasks/Scala/ConfigureNetRc"
             }
         },
         {

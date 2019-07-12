@@ -15,12 +15,19 @@
 # CREATED:  June 10, 2019
 #===================================================================================
 lookfor=RUNNING
-result=$(databricks clusters list | awk '{print $3}')
-echo $result
-while [ "$result" != "$lookfor" ]
+
+clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO | jq -r .state)
+
+if [ "$clusterStatus" == "TERMINATED"]
 do
-    sleep 1
+    echo "The cluster is not rebooting."
+    exit 1
+done
+
+while [ "$clusterStatus" != "$lookfor" ]
+do
+    sleep 30
     echo "Restarting..."
-    result=$(databricks clusters list | awk '{print $3}')
+    clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO | jq -r .state)
 done
 echo "Running now..."

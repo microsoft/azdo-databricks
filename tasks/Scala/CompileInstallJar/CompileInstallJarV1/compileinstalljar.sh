@@ -20,6 +20,7 @@
 # Compile and Package
 #========================
 clusterid=$1
+jarfilename=$2
 echo "sbt compile package"
 sbt compile package
 #========================
@@ -33,15 +34,7 @@ dbfs cp MN212142_9392.csv dbfs:/docs
 echo "Install new jar"
 dbfs rm dbfs:/jar/sparkcode.jar
 SOURCEJAR=./target/scala-2.11/sparkcode_2.11-1.0.jar
-dbfs cp $SOURCEJAR dbfs:/jar/sparkcode.jar
-dbfs ls dbfs:/jar/sparkcode.jar
-curl -n -H "Content-Type: application/json" -X POST -d @- https://centralus.azuredatabricks.net/api/2.0/libraries/install <<JSON
-{
-  "cluster_id": "$clusterid",
-  "libraries": [
-    {
-      "jar": "dbfs:/jar/sparkcode.jar"
-    }
-  ]
-}
-JSON
+dbfs cp $SOURCEJAR dbfs:/jar/$jarfilename
+dbfs ls dbfs:/jar/$jarfilename
+
+databricks libraries install --cluster-id $clusterid --jar dbfs:/jar/$jarfilename --profile AZDO

@@ -7,6 +7,7 @@ async function run() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         const workingDirectory: string = tl.getInput('workingDirectory', false);
+        const libraryfilename: string = tl.getInput('libraryfilename', true);
 
         if(workingDirectory != ''){
             tl.cd(workingDirectory);
@@ -22,7 +23,8 @@ async function run() {
 
         bash.arg([
             filePath,
-            clusterid
+            clusterid,
+            libraryfilename
         ]);
 
         let options = <tr.IExecOptions>{
