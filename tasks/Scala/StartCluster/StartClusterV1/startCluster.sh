@@ -43,7 +43,7 @@ clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO |
 echo $clusterStatus
 while [ "$clusterStatus" != "$lookfor" ]
 do
-    sleep 1
+    sleep 30
     echo "Restarting..."
     clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO | jq -r .state)
 done

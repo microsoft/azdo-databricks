@@ -22,6 +22,14 @@
             "helpMarkDown": "The ID of the Cluster to be uninstall spark code from"
         },
         {
+            "name": "libraryfilename",
+            "type": "string",
+            "label": "Library file name",
+            "defaultValue": "sparkcode.jar",
+            "required": true,
+            "helpMarkDown": "The JAR file name of the library to be installed on the cluster"
+        }
+        {
             "name": "workingDirectory",
             "type": "filePath",
             "label": "Working Directory",
