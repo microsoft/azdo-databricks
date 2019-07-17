@@ -28,7 +28,7 @@ prepareToInstall() {
     echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install apt-transport-https -y"
     echo "==================="
-    sudo DEBIAN_FRONTEND=noninteractive apt-get software-properties-common install apt-transport-https -y
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install apt-transport-https -y
 }
 
 setupJava() {
