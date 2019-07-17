@@ -12,19 +12,27 @@
 # VERSION:  1.0
 # CREATED:  June 10, 2019
 #===================================================================================
-setupJava() {
-
-    # - Java
+prepareAptGet() {
     echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get update"
     echo "==================="
 
     sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-    
+
+    echo "==================="
+    echo "sudo apt-get remove unscd"
+    echo "==================="
+
+    sudo apt-get remove unscd
+}
+
+setupJava() {
+
+    # - Java
     echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install default-jdk"
     echo "==================="
-    
+
     sudo DEBIAN_FRONTEND=noninteractive apt-get install default-jdk -y
 }
 setupScalaAndSbt() {
@@ -49,12 +57,6 @@ setupScalaAndSbt() {
     sudo DEBIAN_FRONTEND=noninteractive dpkg -i scala-2.12.1.deb
 
     echo "==================="
-    echo "sudo DEBIAN_FRONTEND=noninteractive apt-get update"
-    echo "==================="
-
-    sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-
-    echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install scala"
     echo "==================="
 
@@ -71,19 +73,9 @@ setupScalaAndSbt() {
     echo "deb https://dl.bintray.com/sbt/debian /" | sudo DEBIAN_FRONTEND=noninteractive tee -a /etc/apt/sources.list.d/sbt.list
 
     echo "==================="
-    echo "echo "deb https://dl.bintray.com/sbt/debian /" | sudo DEBIAN_FRONTEND=noninteractive tee -a /etc/apt/sources.list.d/sbt.list"
-    echo "==================="
-    echo "deb https://dl.bintray.com/sbt/debian /" | sudo DEBIAN_FRONTEND=noninteractive tee -a /etc/apt/sources.list.d/sbt.list
-
-    echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823"
     echo "==================="
     sudo DEBIAN_FRONTEND=noninteractive apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
-
-    echo "==================="
-    echo "sudo DEBIAN_FRONTEND=noninteractive apt-get update"
-    echo "==================="
-    sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 
     echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y sbt"
@@ -94,6 +86,6 @@ setupScalaAndSbt() {
 #================================================
 # Main
 #================================================
-
+prepareAptGet
 setupJava
 setupScalaAndSbt
