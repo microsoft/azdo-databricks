@@ -15,29 +15,51 @@
 setupJava() {
 
     # - Java
+    echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get update"
+    echo "==================="
+
     sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
+    
+    echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install default-jdk"
+    echo "==================="
+    
     sudo DEBIAN_FRONTEND=noninteractive apt-get install default-jdk -y
 }
 setupScalaAndSbt() {
 
     # - Scala
+    echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get remove scala-library scala"
+    echo "==================="
+
     sudo DEBIAN_FRONTEND=noninteractive apt-get remove scala-library scala -y
+    
+    echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive wget http://scala-lang.org/files/archive/scala-2.12.1.deb"
+    echo "==================="
+
     sudo DEBIAN_FRONTEND=noninteractive wget http://scala-lang.org/files/archive/scala-2.12.1.deb
+    
+    echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive dpkg -i scala-2.12.1.deb"
+    echo "==================="
+
     sudo DEBIAN_FRONTEND=noninteractive dpkg -i scala-2.12.1.deb
-    echo "sudo DEBIAN_FRONTEND=noninteractive apt-get update"
-    sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-    echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install scala"
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install scala -y
+
     echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get update"
     echo "==================="
+
     sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 
+    echo "==================="
+    echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install scala"
+    echo "==================="
+
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install scala -y
+    
     echo "==================="
     echo "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https"
     echo "==================="
