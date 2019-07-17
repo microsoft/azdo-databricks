@@ -72,5 +72,9 @@ setupScalaAndSbt() {
 #================================================
 # Main
 #================================================
+
+# As it runs on a non interactive session, it must be explicitly specified.
+echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
 setupJava
 setupScalaAndSbt
