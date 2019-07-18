@@ -22,12 +22,12 @@
             "helpMarkDown": "The ID of the Cluster to be started"
         },
         {
-            "name": "workingDirectory",
-            "type": "filePath",
-            "label": "Working Directory",
-            "defaultValue": "",
+            "name": "failOnStderr",
+            "type": "boolean",
+            "label": "Fail on Standard Error",
+            "defaultValue": "false",
             "required": false,
-            "helpMarkDown": "The directory to run SBT tests on"
+            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream."
         }
     ],
     "execution": {
