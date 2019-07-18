@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs = require("fs");
 const path = require("path");
 const tl = require("azure-pipelines-task-lib/task");
 var uuidV4 = require('uuid/v4');
@@ -42,6 +43,11 @@ function translateDirectoryPath(bashPath, directoryPath) {
         return `${pwdOutput}`;
     });
 }
+function checkIfDatabricksCliIsInstalled() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return !!tl.which("databricks", false);
+    });
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -51,23 +57,30 @@ function run() {
             let input_clusterid = tl.getInput('clusterid', true);
             let scriptFileName = 'startCluster.sh';
             let scriptPath = path.join(__dirname, scriptFileName);
-            console.log("Generating script.");
             let bashPath = tl.which('bash', true);
             tl.assertAgent('2.115.0');
             if (process.platform == 'win32') {
                 console.log("Translating path as it's running on Windows...");
                 scriptPath = (yield translateDirectoryPath(bashPath, __dirname)) + '/' + scriptFileName;
             }
+            console.log("Generating the temporary scripts.");
+            let contents;
+            let targetFilePath;
+            contents = `. '${scriptPath.replace("'", "'\\''")}' ${input_clusterid}`;
+            console.log(`Successfully formatted command with ${contents}`);
+            // Write the script to disk
+            tl.assertAgent('2.115.0');
+            let tempDirectory = tl.getVariable('agent.tempDirectory');
+            tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
+            let fileName = uuidV4() + '.sh';
+            let filePath = path.join(tempDirectory, fileName);
+            yield fs.writeFileSync(filePath, contents, { encoding: 'utf8' });
             // Create the tool runner.
             console.log('========================== Starting Command Output ===========================');
-            let bash = tl.tool(bashPath);
-            bash.arg('--noprofile');
-            bash.arg('--norc');
-            bash.arg('-c');
-            bash.arg([
-                scriptPath,
-                input_clusterid
-            ]);
+            let bash = tl.tool(bashPath)
+                .arg('--noprofile')
+                .arg('--norc')
+                .arg(filePath);
             let options = {
                 cwd: __dirname,
                 env: {},
@@ -104,5 +117,8 @@ function run() {
             tl.setResult(tl.TaskResult.Failed, err.message || 'run() failed', true);
         }
     });
+}
+if (!checkIfDatabricksCliIsInstalled()) {
+    tl.setResult(tl.TaskResult.Failed, "The Databricks CLI was not found. Use the Configure Databricks CLI task to install and configure it prior to this task");
 }
 run();
