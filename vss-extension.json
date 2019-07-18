@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "azdo-databricks",
     "name": "BT-DevOps for Azure Databricks",
-    "version": "0.1.15",
+    "version": "0.1.17",
     "publisher": "AutoSpark",
     "targets": [
         {

@@ -49,7 +49,7 @@ function run() {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
             // Get inputs.
             let input_failOnStderr = tl.getBoolInput('failOnStderr', false);
-            let fileNameOnExtension = 'mybash.sh';
+            let fileNameOnExtension = 'installScalaTools.sh';
             let filePathOnExtension = path.join(__dirname, fileNameOnExtension);
             console.log("Generating script.");
             let bashPath = tl.which('bash', true);
