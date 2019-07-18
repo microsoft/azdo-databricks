@@ -58,9 +58,8 @@ async function run() {
 
         // Write the script to disk.
         tl.assertAgent('2.115.0');
-        // let tempDirectory = tl.getVariable('agent.tempDirectory');
-        let tempDirectory = "./temp"
-        // tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
+        let tempDirectory = tl.getVariable('agent.tempDirectory');
+        tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
         
         let fileName = uuidV4() + '.sh';
         let filePath = path.join(tempDirectory, fileName);
