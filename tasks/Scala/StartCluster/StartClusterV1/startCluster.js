@@ -10,25 +10,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const tl = require("azure-pipelines-task-lib/task");
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
         try {
             const clusterid = tl.getInput('clusterid', true);
-            let clusterStatusRequest = tl.execSync("databricks", `clusters get --cluster-id ${clusterid} --profile AZDO`);
-            let clusterInfo = JSON.parse(clusterStatusRequest.stdout);
-            let clusterStatus = clusterInfo['state'];
+            let clusterStatus = yield getClusterStatus(clusterid);
             if (clusterStatus == 'RUNNING') {
                 console.log(`Cluster is RUNNING. Skipping...`);
             }
             else {
                 console.log(`Cluster is ${clusterStatus}. Starting...`);
+                startCluster(clusterid);
             }
-            console.log(clusterInfo['state']);
         }
         catch (err) {
             tl.setResult(tl.TaskResult.Failed, err);
         }
+    });
+}
+function startCluster(clusterid) {
+    return __awaiter(this, void 0, void 0, function* () {
+        //databricks clusters start --cluster-id $clusterid --profile AZDO
+        let clusterStartRequest = tl.execSync("databricks", `clusters start --cluster-id ${clusterid} --profile AZDO`);
+        if (clusterStartRequest.code != 0) {
+            tl.setResult(tl.TaskResult.Failed, "Error while requesting to start the cluster");
+        }
+        let clusterStatus = yield getClusterStatus(clusterid);
+        if (clusterStatus != 'RUNNING') {
+            while (clusterStatus != 'RUNNING') {
+                console.log(`Cluster Status: ${clusterStatus}`);
+                clusterStatus = yield getClusterStatus(clusterid);
+                yield sleep(10);
+            }
+        }
+        console.log(`Cluster is RUNNING.`);
+    });
+}
+function getClusterStatus(clusterid) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let clusterStartRequest = tl.execSync("databricks", `clusters get --cluster-id ${clusterid} --profile AZDO`);
+        if (clusterStartRequest.code != 0) {
+            tl.setResult(tl.TaskResult.Failed, "Error while requesting to start the cluster");
+        }
+        let clusterStatusRequest = tl.execSync("databricks", `clusters get --cluster-id ${clusterid} --profile AZDO`);
+        let clusterInfo = JSON.parse(clusterStatusRequest.stdout);
+        let clusterStatus = clusterInfo['state'];
+        return clusterStatus;
     });
 }
 run();
