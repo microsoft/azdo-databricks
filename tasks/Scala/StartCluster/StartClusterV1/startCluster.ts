@@ -3,11 +3,7 @@ import path = require('path');
 import os = require('os');
 import tl = require('azure-pipelines-task-lib/task');
 import tr = require('azure-pipelines-task-lib/toolrunner');
-import { async } from 'q';
 var uuidV4 = require('uuid/v4');
-
-const noProfile = tl.getBoolInput('noProfile');
-const noRc = tl.getBoolInput('noRc');
 
 async function translateDirectoryPath(bashPath: string, directoryPath: string): Promise<string> {
     let bashPwd = tl.tool(bashPath)
@@ -51,51 +47,44 @@ async function run() {
         let input_failOnStderr = tl.getBoolInput('failOnStderr', false);
         let input_clusterid: string = tl.getInput('clusterid', true);
 
+        console.log("Generating the temporary scripts.");
         let scriptFileName = 'startCluster.sh';
         let scriptPath = path.join(__dirname, scriptFileName);
 
         let bashPath: string = tl.which('bash', true);
-        
-        tl.assertAgent('2.115.0');
-        
-        if (process.platform == 'win32') {
-            console.log("Translating path as it's running on Windows...")
-            scriptPath = await translateDirectoryPath(bashPath, __dirname) + '/' + scriptFileName;
-        }
-
-        console.log("Generating the temporary scripts.");
-
         let contents: string;
-        let targetFilePath: string;
 
         contents = `. '${scriptPath.replace("'", "'\\''")}' ${input_clusterid}`
-        
-        console.log(`Successfully formatted command with ${contents}`);
+        console.log(`Formatted command: ${contents}`);
 
-        // Write the script to disk
+        // Write the scripts to disk.        
         tl.assertAgent('2.115.0');
         let tempDirectory = tl.getVariable('agent.tempDirectory');
         tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
 
         let fileName = uuidV4() + '.sh';
-
         let filePath = path.join(tempDirectory, fileName);
-
         await fs.writeFileSync(
             filePath,
             contents,
             { encoding: 'utf8'}
         );
+        
+        // Translate the script file path from Windows to the Linux file system.
+        if (process.platform == 'win32') {
+            console.log("Translating path as it's running on Windows...")
+            scriptPath = await translateDirectoryPath(bashPath, __dirname) + '/' + scriptFileName;
+        }
+
+        console.log(`Successfully formatted command with ${contents}`);
 
         // Create the tool runner.
         console.log('========================== Starting Command Output ===========================');
         let bash = tl.tool(bashPath)
-            .arg('--noprofile')
-            .arg('--norc')
             .arg(filePath)
 
         let options = <tr.IExecOptions>{
-            cwd: __dirname,
+            cwd: tempDirectory,
             env: {},
             silent: false,
             failOnStdErr: false,
