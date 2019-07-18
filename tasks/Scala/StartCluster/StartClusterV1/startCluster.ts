@@ -53,7 +53,7 @@ async function run() {
         let bashPath: string = tl.which('bash', true);
         let contents: string;
 
-        contents = `. '${filePathOnExtension.replace("'", "'\\''")} ${input_clusterid}'`.trim();
+        contents = `. '${filePathOnExtension.replace("'", "'\\''")}' ${input_clusterid}'`.trim();
         console.log(`Formatted command: ${contents}`);
 
         // Write the script to disk.
