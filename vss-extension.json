@@ -1,9 +1,9 @@
 {
     "manifestVersion": 1,
     "id": "azdo-databricks",
-    "name": "DevOps for Azure Databricks",
-    "version": "0.1.12",
-    "publisher": "riserrad",
+    "name": "BT-DevOps for Azure Databricks",
+    "version": "0.1.15",
+    "publisher": "AutoSpark",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"

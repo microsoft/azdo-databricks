@@ -59,7 +59,7 @@ async function run() {
         tl.assertAgent('2.115.0');
         let tempDirectory = tl.getVariable('agent.tempDirectory');
         tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
-        
+
         let fileName = uuidV4() + '.sh';
         let filePath = path.join(tempDirectory, fileName);
         await fs.writeFileSync(
