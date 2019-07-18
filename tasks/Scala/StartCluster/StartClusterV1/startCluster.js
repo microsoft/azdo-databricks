@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
 const path = require("path");
 const tl = require("azure-pipelines-task-lib/task");
 var uuidV4 = require('uuid/v4');
@@ -50,37 +49,27 @@ function run() {
             // Get inputs.
             let input_failOnStderr = tl.getBoolInput('failOnStderr', false);
             let input_clusterid = tl.getInput('clusterid', true);
-            let fileNameOnExtension = 'startCluster.sh';
-            let filePathOnExtension = path.join(__dirname, fileNameOnExtension);
+            let scriptFileName = 'startCluster.sh';
+            let scriptPath = path.join(__dirname, scriptFileName);
             console.log("Generating script.");
             let bashPath = tl.which('bash', true);
-            let contents;
-            contents = `. '${filePathOnExtension.replace("'", "'\\''")} ${input_clusterid}'`.trim();
-            console.log(`Formatted command: ${contents}`);
-            // Write the script to disk.
             tl.assertAgent('2.115.0');
-            // let tempDirectory = tl.getVariable('agent.tempDirectory');
-            let tempDirectory = "./temp";
-            // tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
-            let fileName = uuidV4() + '.sh';
-            let filePath = path.join(tempDirectory, fileName);
-            yield fs.writeFileSync(filePath, contents, { encoding: 'utf8' });
-            // Translate the script file path from Windows to the Linux file system.
             if (process.platform == 'win32') {
-                filePath = (yield translateDirectoryPath(bashPath, tempDirectory)) + '/' + fileName;
+                console.log("Translating path as it's running on Windows...");
+                scriptPath = (yield translateDirectoryPath(bashPath, __dirname)) + '/' + scriptFileName;
             }
             // Create the tool runner.
             console.log('========================== Starting Command Output ===========================');
             let bash = tl.tool(bashPath);
-            if (noProfile) {
-                bash.arg('--noprofile');
-            }
-            if (noRc) {
-                bash.arg('--norc');
-            }
-            bash.arg(filePath);
+            bash.arg('--noprofile');
+            bash.arg('--norc');
+            bash.arg('-c');
+            bash.arg([
+                scriptPath,
+                input_clusterid
+            ]);
             let options = {
-                cwd: tempDirectory,
+                cwd: __dirname,
                 env: {},
                 silent: false,
                 failOnStdErr: false,

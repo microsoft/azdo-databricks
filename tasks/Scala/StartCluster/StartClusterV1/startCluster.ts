@@ -46,46 +46,34 @@ async function run() {
         let input_failOnStderr = tl.getBoolInput('failOnStderr', false);
         let input_clusterid: string = tl.getInput('clusterid', true);
 
-        let fileNameOnExtension = 'startCluster.sh';
-        let filePathOnExtension = path.join(__dirname, fileNameOnExtension);
+        let scriptFileName = 'startCluster.sh';
+        let scriptPath = path.join(__dirname, scriptFileName);
 
         console.log("Generating script.");
         let bashPath: string = tl.which('bash', true);
-        let contents: string;
-
-        contents = `. '${filePathOnExtension.replace("'", "'\\''")}' ${input_clusterid}'`.trim();
-        console.log(`Formatted command: ${contents}`);
-
-        // Write the script to disk.
-        tl.assertAgent('2.115.0');
-        let tempDirectory = tl.getVariable('agent.tempDirectory');
-        tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
         
-        let fileName = uuidV4() + '.sh';
-        let filePath = path.join(tempDirectory, fileName);
-        await fs.writeFileSync(
-            filePath,
-            contents,
-            { encoding: 'utf8' });
-
-        // Translate the script file path from Windows to the Linux file system.
+        tl.assertAgent('2.115.0');
+        
         if (process.platform == 'win32') {
-            filePath = await translateDirectoryPath(bashPath, tempDirectory) + '/' + fileName;
+            console.log("Translating path as it's running on Windows...")
+            scriptPath = await translateDirectoryPath(bashPath, __dirname) + '/' + scriptFileName;
         }
 
         // Create the tool runner.
         console.log('========================== Starting Command Output ===========================');
         let bash = tl.tool(bashPath);
-        if (noProfile) {
-            bash.arg('--noprofile');
-        }
-        if (noRc) {
-            bash.arg('--norc');
-        }
-        bash.arg(filePath);
+        
+        bash.arg('--noprofile')
+        bash.arg('--norc')
+        bash.arg('-c')
+
+        bash.arg([
+            scriptPath,
+            input_clusterid
+        ]);
 
         let options = <tr.IExecOptions>{
-            cwd: tempDirectory,
+            cwd: __dirname,
             env: {},
             silent: false,
             failOnStdErr: false,

@@ -22,7 +22,15 @@
 #=======================================================
 clusterid=$1
 lookfor=RUNNING
-#clusterStatus=$(databricks clusters list | awk '{print $3}')
+
+databricks_cli=$(which databricks)
+
+if [ "$databricks_cli" == "" ]
+then
+   echo "The Databricks CLI was not found. Use the Configure Databricks CLI task to install and configure it prior to this task"
+   exit -1
+fi
+
 clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO | jq -r .state)
 if [ "$clusterStatus" != "$lookfor" ]
 then
