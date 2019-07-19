@@ -14,6 +14,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
+            let input_failOnStderr = tl.getBoolInput('failOnStderr', false);
             let bashPath = tl.which('bash', true);
             let fileName = 'installSpark.sh';
             let bash = tl.tool(bashPath);
@@ -24,7 +25,7 @@ function run() {
                 cwd: __dirname,
                 env: {},
                 silent: false,
-                failOnStdErr: false,
+                failOnStdErr: input_failOnStderr,
                 errStream: process.stdout,
                 outStream: process.stdout,
                 ignoreReturnCode: true,
@@ -32,18 +33,22 @@ function run() {
             };
             // Listen for stderr.
             let stderrFailure = false;
-            bash.on('stderr', (data) => {
-                stderrFailure = true;
-            });
+            let stdErrData = "";
+            if (input_failOnStderr) {
+                bash.on('stderr', (data) => {
+                    stderrFailure = true;
+                    stdErrData = data;
+                });
+            }
             let exitCode = yield bash.exec(options);
             let result = tl.TaskResult.Succeeded;
             if (exitCode !== 0) {
-                tl.error(tl.loc('JS_ExitCode', exitCode));
+                tl.error("Bash exited with code " + exitCode);
                 result = tl.TaskResult.Failed;
             }
             // Fail on stderr.
             if (stderrFailure) {
-                tl.error(tl.loc('JS_Stderr'));
+                tl.error(`Bash wrote one or more lines to the standard error stream. ${stdErrData}`.trim());
                 result = tl.TaskResult.Failed;
             }
             tl.setResult(result, "", true);

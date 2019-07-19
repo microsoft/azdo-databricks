@@ -87,7 +87,7 @@ async function run() {
             cwd: tempDirectory,
             env: {},
             silent: false,
-            failOnStdErr: false,
+            failOnStdErr: input_failOnStderr,
             errStream: process.stdout, // Direct all output to STDOUT, otherwise the output may appear out
             outStream: process.stdout, // of order since Node buffers it's own STDOUT but not STDERR.
             ignoreReturnCode: true,
@@ -96,9 +96,11 @@ async function run() {
 
         // Listen for stderr.
         let stderrFailure = false;
+        let stdErrData: string = "";
         if (input_failOnStderr) {
             bash.on('stderr', (data) => {
                 stderrFailure = true;
+                stdErrData = data;
             });
         }
 
@@ -115,7 +117,7 @@ async function run() {
 
         // Fail on stderr.
         if (stderrFailure) {
-            tl.error("Bash wrote one or more lines to the standard error stream.");
+            tl.error(`Bash wrote one or more lines to the standard error stream. ${stdErrData}`.trim());
             result = tl.TaskResult.Failed;
         }
 
