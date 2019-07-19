@@ -189,4 +189,20 @@ class Notebook{
     }
 }
 
+function checkPythonVersion() {
+    let pythonInfo = tl.execSync("python", "-V");
+
+    if(pythonInfo.code != 0) {
+        tl.setResult(tl.TaskResult.Failed, `Failed to check python version. ${pythonInfo.stderr}`.trim())
+    }
+
+    let version: string = pythonInfo.stderr.split(' ')[1];
+
+    if(version.startsWith("2")) {
+        tl.setResult(tl.TaskResult.Failed, "You must add 'Use Python Version 3.x' as the very first task for this pipeline.");
+    }
+}
+
+checkPythonVersion();
+
 run();

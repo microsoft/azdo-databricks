@@ -9,56 +9,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const tl = require("azure-pipelines-task-lib");
+const tl = require("azure-pipelines-task-lib/task");
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
         try {
-            tl.setResourcePath(path.join(__dirname, 'task.json'));
-            const input_failOnStderr = tl.getBoolInput('failOnStderr', false);
             const clusterid = tl.getInput('clusterid', true);
-            let bashPath = tl.which('bash', true);
-            let fileName = 'startCluster.sh';
-            let filePath = path.join(__dirname, fileName);
-            let bash = tl.tool(bashPath);
-            bash.arg([
-                filePath,
-                clusterid
-            ]);
-            let options = {
-                cwd: __dirname,
-                env: {},
-                silent: false,
-                failOnStdErr: input_failOnStderr,
-                errStream: process.stdout,
-                outStream: process.stdout,
-                ignoreReturnCode: true,
-                windowsVerbatimArguments: false
-            };
-            // Listen for stderr.
-            let stderrFailure = false;
-            let stdErrData = "";
-            if (input_failOnStderr) {
-                bash.on('stderr', (data) => {
-                    stderrFailure = true;
-                    stdErrData = data;
-                });
+            let clusterStatus = yield getClusterStatus(clusterid);
+            if (clusterStatus == 'RUNNING') {
+                console.log(`Cluster is RUNNING. Skipping...`);
             }
-            let exitCode = yield bash.exec(options);
-            let result = tl.TaskResult.Succeeded;
-            if (exitCode !== 0) {
-                tl.error("Bash exited with code " + exitCode);
-                result = tl.TaskResult.Failed;
+            else {
+                console.log(`Cluster is ${clusterStatus}. Starting...`);
+                yield startCluster(clusterid);
             }
-            // Fail on stderr.
-            if (stderrFailure) {
-                tl.error(`Bash wrote one or more lines to the standard error stream. ${stdErrData}`.trim());
-                result = tl.TaskResult.Failed;
-            }
-            tl.setResult(result, "", true);
         }
         catch (err) {
-            tl.setResult(tl.TaskResult.Failed, err.message);
+            tl.setResult(tl.TaskResult.Failed, err);
         }
+    });
+}
+function startCluster(clusterid) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let clusterStartRequest = tl.execSync("databricks", `clusters start --cluster-id ${clusterid} --profile AZDO`);
+        if (clusterStartRequest.code != 0) {
+            tl.setResult(tl.TaskResult.Failed, "Error while requesting to start the cluster");
+        }
+        let clusterStatus = yield getClusterStatus(clusterid);
+        if (clusterStatus != 'RUNNING') {
+            while (clusterStatus != 'RUNNING') {
+                console.log(`Cluster Status: ${clusterStatus}`);
+                clusterStatus = yield getClusterStatus(clusterid);
+                sleep(10);
+            }
+        }
+        console.log(`Cluster is RUNNING.`);
+    });
+}
+function getClusterStatus(clusterid) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let clusterStatusRequest = tl.execSync("databricks", `clusters get --cluster-id ${clusterid} --profile AZDO`);
+        if (clusterStatusRequest.code != 0) {
+            tl.setResult(tl.TaskResult.Failed, "Error while requesting the cluster information");
+        }
+        let clusterInfo = JSON.parse(clusterStatusRequest.stdout);
+        let clusterStatus = clusterInfo['state'];
+        return clusterStatus;
     });
 }
 run();
