@@ -20,9 +20,5 @@ setupSpark() {
    tar xzvf spark-2.4.3-bin-hadoop2.7.tgz
    PATH=$PATH:/home/vsts/spark-2.4.3-bin-hadoop2.7/bin
    echo "Path = "$PATH
-   echo "mkdir -p /dbfs/docs"
-   sudo mkdir -p /dbfs/docs
-   echo "cp MN212142_9392.csv /dbfs/docs"
-   sudo cp "MN212142_9392.csv" "/dbfs/docs"
 }
 setupSpark
