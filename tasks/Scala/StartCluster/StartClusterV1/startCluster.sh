@@ -40,11 +40,10 @@ databricks clusters start --cluster-id $clusterid --profile AZDO
 # Now loop (stay here) until running
 #=======================================================
 clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO | jq -r .state)
-echo $clusterStatus
 while [ "$clusterStatus" != "$lookfor" ]
 do
     sleep 30
-    echo "Restarting..."
+    echo "Starting..."
     clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO | jq -r .state)
 done
 echo "Running now..."
