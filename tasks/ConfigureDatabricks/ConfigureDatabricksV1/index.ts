@@ -59,16 +59,25 @@ function isPython3Selected() : boolean {
         tl.setResult(tl.TaskResult.Failed, `Failed to check python version. ${pythonInfo.stderr}`.trim())
     }
 
-    if(pythonInfo.stderr != "" && pythonInfo.stderr.split(' ').length != 2) {
-        tl.setResult(tl.TaskResult.Failed, `Failed to grab python version: ${pythonInfo.stderr}`);
+    let version: string = "";
+
+    if(pythonInfo.stderr != ""){
+        version = pythonInfo.stderr.split(' ')[1];
+    } else if(pythonInfo.stdout != ""){
+        version = pythonInfo.stdout.split(' ')[1];
+    } else {
+        tl.setResult(tl.TaskResult.Failed, `Failed to retrieve Python Version: ${pythonInfo.stderr}`);
+        return false;
+    }
+    
+    if(!version.startsWith('3')){
+        tl.setResult(tl.TaskResult.Failed, `Active Python Version: ${version}`);
         return false;
     }
 
-    let version: string = pythonInfo.stderr.split(' ')[1];
-
     console.log(`Version: ${version}`);
 
-    return version.startsWith('3.');
+    return true;
 }
 
 let python3Selected = isPython3Selected();

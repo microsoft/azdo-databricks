@@ -62,20 +62,39 @@ interface State {
     result_state: string
 }
 
-function checkPythonVersion() {
+function isPython3Selected() : boolean {
     let pythonInfo = tl.execSync("python", "-V");
 
     if(pythonInfo.code != 0) {
         tl.setResult(tl.TaskResult.Failed, `Failed to check python version. ${pythonInfo.stderr}`.trim())
     }
 
-    let version: string = pythonInfo.stderr.split(' ')[1];
+    let version: string = "";
 
-    if(version.startsWith("2")) {
-        tl.setResult(tl.TaskResult.Failed, "You must add 'Use Python Version 3.x' as the very first task for this pipeline.");
+    if(pythonInfo.stderr != ""){
+        version = pythonInfo.stderr.split(' ')[1];
+    } else if(pythonInfo.stdout != ""){
+        version = pythonInfo.stdout.split(' ')[1];
+    } else {
+        tl.setResult(tl.TaskResult.Failed, `Failed to retrieve Python Version: ${pythonInfo.stderr}`);
+        return false;
     }
+    
+    if(!version.startsWith('3')){
+        tl.setResult(tl.TaskResult.Failed, `Active Python Version: ${version}`);
+        return false;
+    }
+
+    console.log(`Version: ${version}`);
+
+    return true;
 }
 
-checkPythonVersion();
+let python3Selected = isPython3Selected();
 
-run();
+if(python3Selected) {
+    console.log("Python3 selected. Running...");
+    run();
+} else {
+    tl.setResult(tl.TaskResult.Failed, "You must add 'Use Python Version 3.x' as the very first task for this pipeline.");
+}
