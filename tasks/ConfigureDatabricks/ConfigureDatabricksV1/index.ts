@@ -52,20 +52,30 @@ async function configurePat(url:string, token: string){
     }
 }
 
-function checkPythonVersion() {
+function isPython3Selected() : boolean {
     let pythonInfo = tl.execSync("python", "-V");
 
     if(pythonInfo.code != 0) {
         tl.setResult(tl.TaskResult.Failed, `Failed to check python version. ${pythonInfo.stderr}`.trim())
     }
 
+    if(pythonInfo.stderr != "" && pythonInfo.stderr.split(' ').length != 2) {
+        tl.setResult(tl.TaskResult.Failed, `Failed to grab python version: ${pythonInfo.stderr}`);
+        return false;
+    }
+
     let version: string = pythonInfo.stderr.split(' ')[1];
 
-    if(version.startsWith("2")) {
-        tl.setResult(tl.TaskResult.Failed, "You must add 'Use Python Version 3.x' as the very first task for this pipeline.");
-    }
+    console.log(`Version: ${version}`);
+
+    return version.startsWith('3.');
 }
 
-checkPythonVersion();
+let python3Selected = isPython3Selected();
 
-run();
+if(python3Selected) {
+    console.log("Python3 selected. Running...");
+    run();
+} else {
+    tl.setResult(tl.TaskResult.Failed, "You must add 'Use Python Version 3.x' as the very first task for this pipeline.");
+}
