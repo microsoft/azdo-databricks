@@ -1,61 +1,67 @@
-import path = require('path');
-import tl = require('azure-pipelines-task-lib/task');
-
-function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+import path = require('path')
+import tl = require('azure-pipelines-task-lib');
+import tr = require('azure-pipelines-task-lib/toolrunner')
 
 async function run() {
-    tl.setResourcePath(path.join(__dirname, 'task.json'));
-
     try {
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
+
+        const input_failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
         const clusterid: string = tl.getInput('clusterid', true);
+        
+        let bashPath: string = tl.which('bash', true);
+        let fileName = 'startCluster.sh'
+        let filePath = path.join(__dirname, fileName);
 
-        let clusterStatus: string = await getClusterStatus(clusterid);
+        let bash = tl.tool(bashPath);
 
-        if(clusterStatus == 'RUNNING') {
-            console.log(`Cluster is RUNNING. Skipping...`);
-        } else {
-            console.log(`Cluster is ${clusterStatus}. Starting...`);
-            await startCluster(clusterid);
+        bash.arg([
+            filePath,
+            clusterid
+        ]);
+
+        let options = <tr.IExecOptions>{
+            cwd: __dirname,
+            env: {},
+            silent: false,
+            failOnStdErr: input_failOnStderr,
+            errStream: process.stdout,
+            outStream: process.stdout,
+            ignoreReturnCode: true,
+            windowsVerbatimArguments: false
+        };
+
+        // Listen for stderr.
+        let stderrFailure = false;
+        let stdErrData: string = "";
+
+        if(input_failOnStderr) {
+            bash.on('stderr', (data) => {
+                stderrFailure = true;
+                stdErrData = data;
+            });
         }
-    } catch(err) {
-        tl.setResult(tl.TaskResult.Failed, err);
-    }
-}
 
-async function startCluster(clusterid: string){
-    let clusterStartRequest = tl.execSync("databricks", `clusters start --cluster-id ${clusterid} --profile AZDO`);
+        let exitCode: number = await bash.exec(options);
 
-    if(clusterStartRequest.code != 0) {
-        tl.setResult(tl.TaskResult.Failed, "Error while requesting to start the cluster");
-    }
+        let result = tl.TaskResult.Succeeded;
 
-    let clusterStatus: string = await getClusterStatus(clusterid);
-
-    if(clusterStatus != 'RUNNING') {
-        while(clusterStatus != 'RUNNING') {
-            console.log(`Cluster Status: ${clusterStatus}`);
-            clusterStatus = await getClusterStatus(clusterid);
-
-            sleep(10);
+        if (exitCode !== 0) {
+            tl.error("Bash exited with code " + exitCode);
+            result = tl.TaskResult.Failed
         }
-    } 
 
-    console.log(`Cluster is RUNNING.`);
-}
+        // Fail on stderr.
+        if (stderrFailure) {
+            tl.error(`Bash wrote one or more lines to the standard error stream. ${stdErrData}`.trim());
+            result = tl.TaskResult.Failed;
+        }
 
-async function getClusterStatus(clusterid: string) : Promise<string> {
-    let clusterStatusRequest = tl.execSync("databricks", `clusters get --cluster-id ${clusterid} --profile AZDO`);
-
-    if(clusterStatusRequest.code != 0) {
-        tl.setResult(tl.TaskResult.Failed, "Error while requesting the cluster information");
+        tl.setResult(result, "", true);
     }
-
-    let clusterInfo = JSON.parse(clusterStatusRequest.stdout);
-    let clusterStatus: string = clusterInfo['state'];
-
-    return clusterStatus;
+    catch (err) {
+        tl.setResult(tl.TaskResult.Failed, err.message);
+    }
 }
 
 run();
