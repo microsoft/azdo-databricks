@@ -24,7 +24,7 @@ function run() {
             }
             else {
                 console.log(`Cluster is ${clusterStatus}. Starting...`);
-                startCluster(clusterid);
+                yield startCluster(clusterid);
             }
         }
         catch (err) {
@@ -34,7 +34,6 @@ function run() {
 }
 function startCluster(clusterid) {
     return __awaiter(this, void 0, void 0, function* () {
-        //databricks clusters start --cluster-id $clusterid --profile AZDO
         let clusterStartRequest = tl.execSync("databricks", `clusters start --cluster-id ${clusterid} --profile AZDO`);
         if (clusterStartRequest.code != 0) {
             tl.setResult(tl.TaskResult.Failed, "Error while requesting to start the cluster");
@@ -44,7 +43,7 @@ function startCluster(clusterid) {
             while (clusterStatus != 'RUNNING') {
                 console.log(`Cluster Status: ${clusterStatus}`);
                 clusterStatus = yield getClusterStatus(clusterid);
-                yield sleep(10);
+                sleep(10);
             }
         }
         console.log(`Cluster is RUNNING.`);
@@ -52,11 +51,10 @@ function startCluster(clusterid) {
 }
 function getClusterStatus(clusterid) {
     return __awaiter(this, void 0, void 0, function* () {
-        let clusterStartRequest = tl.execSync("databricks", `clusters get --cluster-id ${clusterid} --profile AZDO`);
-        if (clusterStartRequest.code != 0) {
-            tl.setResult(tl.TaskResult.Failed, "Error while requesting to start the cluster");
-        }
         let clusterStatusRequest = tl.execSync("databricks", `clusters get --cluster-id ${clusterid} --profile AZDO`);
+        if (clusterStatusRequest.code != 0) {
+            tl.setResult(tl.TaskResult.Failed, "Error while requesting the cluster information");
+        }
         let clusterInfo = JSON.parse(clusterStatusRequest.stdout);
         let clusterStatus = clusterInfo['state'];
         return clusterStatus;
