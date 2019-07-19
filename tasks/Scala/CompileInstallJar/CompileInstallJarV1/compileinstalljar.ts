@@ -6,13 +6,7 @@ async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-        const workingDirectory: string = tl.getInput('workingDirectory', false);
-        const libraryfilename: string = tl.getInput('libraryfilename', true);
-
-        if(workingDirectory != ''){
-            tl.cd(workingDirectory);
-        }
-        
+        const input_failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
         const clusterid: string = tl.getInput('clusterid', true);
         
         let bashPath: string = tl.which('bash', true);
@@ -23,15 +17,14 @@ async function run() {
 
         bash.arg([
             filePath,
-            clusterid,
-            libraryfilename
+            clusterid
         ]);
 
         let options = <tr.IExecOptions>{
             cwd: __dirname,
             env: {},
             silent: false,
-            failOnStdErr: false,
+            failOnStdErr: input_failOnStderr,
             errStream: process.stdout,
             outStream: process.stdout,
             ignoreReturnCode: true,
@@ -40,9 +33,14 @@ async function run() {
 
         // Listen for stderr.
         let stderrFailure = false;
-        bash.on('stderr', (data) => {
-            stderrFailure = true;
-        });
+        let stdErrData: string = "";
+
+        if(input_failOnStderr) {
+            bash.on('stderr', (data) => {
+                stderrFailure = true;
+                stdErrData = data;
+            });
+        }
 
         let exitCode: number = await bash.exec(options);
 
@@ -55,7 +53,7 @@ async function run() {
 
         // Fail on stderr.
         if (stderrFailure) {
-            tl.error("Bash wrote one or more lines to the standard error stream.");
+            tl.error(`Bash wrote one or more lines to the standard error stream. ${stdErrData}`.trim());
             result = tl.TaskResult.Failed;
         }
 

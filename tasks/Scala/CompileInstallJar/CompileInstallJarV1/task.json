@@ -22,20 +22,12 @@
             "helpMarkDown": "The ID of the Cluster to be started"
         },
         {
-            "name": "libraryfilename",
-            "type": "string",
-            "label": "Library file name",
-            "defaultValue": "sparkcode.jar",
-            "required": true,
-            "helpMarkDown": "The JAR file name of the library to be installed on the cluster"
-        },
-        {
-            "name": "workingDirectory",
-            "type": "filePath",
-            "label": "Working Directory",
-            "defaultValue": "",
+            "name": "failOnStderr",
+            "type": "boolean",
+            "label": "Fail on Standard Error",
+            "defaultValue": "false",
             "required": false,
-            "helpMarkDown": ""
+            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream."
         }
     ],
     "execution": {
