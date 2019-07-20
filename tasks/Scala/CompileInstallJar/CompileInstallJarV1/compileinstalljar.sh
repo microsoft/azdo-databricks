@@ -20,23 +20,41 @@
 # Compile and Package
 #========================
 clusterid=$1
-sampledatasetfilepath=$2
+packagename=$2
+packageversion=$3
+scalaversion=$4
+scalaversionshort=$5
+sampledatasetfilepath=$6
 
 sampledatasetfilename=$(basename $sampledatasetfilepath)
+echo "Sample dataset file name: $sampledatasetfilename"
+
 echo "sbt compile package"
+
+# Overrides values on build.sbt by adding a second time
+cat >> build.sbt <<EOF
+
+name := "${packagename}"
+version := "${packageversion}"
+scalaVersion := "${scalaversion}"
+EOF
+
 sbt compile package
 #========================
 # Copy data file to cluster
 #========================
-dbfs rm  dbfs:/docs/$sampledatasetfilename
-dbfs cp $sampledatasetfilepath dbfs:/docs
+dbfs mkdirs dbfs:/docs --profile AZDO
+dbfs mkdirs dbfs:/jar --profile AZDO
+
+dbfs rm dbfs:/docs/$sampledatasetfilename --profile AZDO
+dbfs cp $sampledatasetfilepath dbfs:/docs/$sampledatasetfilename --profile AZDO
 #========================
 # Install new jar
 #========================
 echo "Install new jar"
-dbfs rm dbfs:/jar/sparkcode.jar
-SOURCEJAR=./target/scala-2.11/sparkcode_2.11-1.0.jar
-dbfs cp $SOURCEJAR dbfs:/jar/sparkcode.jar
-dbfs ls dbfs:/jar/sparkcode.jar
+dbfs rm dbfs:/jar/$packagename.jar --profile AZDO
+SOURCEJAR=./target/scala-$scalaversionshort/${packagename}_${scalaversionshort}-$packageversion.jar
+dbfs cp $SOURCEJAR dbfs:/jar/$packagename.jar --profile AZDO
+dbfs ls dbfs:/jar/$packagename.jar --profile AZDO
 
-databricks libraries install --cluster-id $clusterid --jar dbfs:/jar/sparkcode.jar --profile AZDO
+databricks libraries install --cluster-id $clusterid --jar dbfs:/jar/$packagename.jar --profile AZDO --profile AZDO

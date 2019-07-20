@@ -12,6 +12,18 @@
         "Patch": 0
     },
     "instanceNameFormat": "Compiles and Installs JAR on $(clusterid)",
+    "groups": [
+        {
+            "name": "environment",
+            "displayName": "Environment Settings",
+            "isExpanded": true
+        },
+        {
+            "name": "compilePack",
+            "displayName": "Compile and Pack",
+            "isExpanded": true
+        }        
+    ],
     "inputs": [
         {
             "name": "clusterid",
@@ -19,7 +31,17 @@
             "label": "Cluster ID",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "The ID of the Cluster to be started"
+            "helpMarkDown": "The ID of the Cluster to be started",
+            "groupName": "environment"
+        },
+        {
+            "name": "workingDirectory",
+            "type": "string",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The source folder where your `build.sbt` lives. <br><br>Examples:- Build: `$(Build.SourcesDirectory)`<br>- Release: $(System.DefaultWorkingDirectory)",
+            "groupName": "compilePack"
         },
         {
             "name": "failOnStderr",
@@ -27,7 +49,44 @@
             "label": "Fail on Standard Error",
             "defaultValue": "false",
             "required": false,
-            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream."
+            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream.",
+            "groupName": "compilePack"
+        },
+        {
+            "name": "packageName",
+            "type": "string",
+            "label": "JAR package name (overrides build.sbt)",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The name for the generated JAR package, without `.jar`. Overrides value on `build.sbt`.",
+            "groupName": "compilePack"
+        },
+        {
+            "name": "packageVersion",
+            "type": "string",
+            "label": "Package Version (overrides build.sbt)",
+            "defaultValue": "1.0",
+            "required": true,
+            "helpMarkDown": "The version for your package. You can use [Pipeline Variables](https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#build-variables) to populate this one. Eg. `$(Build.BuildNumber)`.",
+            "groupName": "compilePack"
+        },
+        {
+            "name": "scalaVersion",
+            "type": "string",
+            "label": "Scala Version (overrides build.sbt)",
+            "defaultValue": "2.11.12",
+            "required": true,
+            "helpMarkDown": "The Scala Version to use on this build",
+            "groupName": "compilePack"
+        },
+        {
+            "name": "sampleDataSetFilePath",
+            "type": "filePath",
+            "label": "Sample dataset path",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The dataset sample to use to run the tests on the cluster",
+            "groupName": "compilePack"
         }
     ],
     "execution": {
