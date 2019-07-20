@@ -57,4 +57,4 @@ SOURCEJAR=./target/scala-$scalaversionshort/${packagename}_${scalaversionshort}-
 dbfs cp $SOURCEJAR dbfs:/jar/$packagename.jar --profile AZDO
 dbfs ls dbfs:/jar/$packagename.jar --profile AZDO
 
-databricks libraries install --cluster-id $clusterid --jar dbfs:/jar/$packagename.jar --profile AZDO --profile AZDO
+databricks libraries install --cluster-id $clusterid --jar dbfs:/jar/$packagename.jar --profile AZDO
