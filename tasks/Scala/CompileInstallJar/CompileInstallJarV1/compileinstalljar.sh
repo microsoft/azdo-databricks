@@ -20,13 +20,16 @@
 # Compile and Package
 #========================
 clusterid=$1
+sampledatasetfilepath=$2
+
+sampledatasetfilename=$(basename $sampledatasetfilepath)
 echo "sbt compile package"
 sbt compile package
 #========================
 # Copy data file to cluster
 #========================
-dbfs rm  dbfs:/docs/MN212142_9392.csv
-dbfs cp MN212142_9392.csv dbfs:/docs
+dbfs rm  dbfs:/docs/$sampledatasetfilename
+dbfs cp $sampledatasetfilepath dbfs:/docs
 #========================
 # Install new jar
 #========================
