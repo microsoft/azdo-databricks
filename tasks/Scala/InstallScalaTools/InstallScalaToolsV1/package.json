@@ -1,20 +1,21 @@
 {
-  "name": "executenotebook",
-  "version": "0.1.0",
-  "description": "Invokes a Databricks Notebook execution from a Workspace",
-  "main": "executeNotebook.js",
+  "name": "installscalatools",
+  "version": "1.0.0",
+  "description": "Install Java, Scala and SBT",
+  "main": "installScalaTools.js",
   "scripts": {
-    "build": "tsc"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/microsoft/azdo-databricks.git"
   },
   "keywords": [
-    "azdo",
-    "devops",
+    "azure",
     "databricks",
-    "data"
+    "devops",
+    "scala",
+    "sbt"
   ],
   "author": "Microsoft DevLabs",
   "license": "MIT",
@@ -26,7 +27,7 @@
     "azure-pipelines-task-lib": "^2.8.0"
   },
   "devDependencies": {
-    "@types/node": "^12.0.8",
+    "@types/node": "^12.6.2",
     "@types/q": "^1.5.2"
   }
 }

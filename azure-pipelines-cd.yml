@@ -1,4 +1,4 @@
-name: 0.4$(Rev:.r)
+name: 0.5$(Rev:.r)
 trigger:
   branches:
     include:

@@ -1,0 +1,46 @@
+{
+    "id": "321777DA-E4FF-4E80-A534-D2A25B8A33B2",
+    "name": "uninstallcodefromcluster",
+    "friendlyName": "Uninstall Spark Code from Cluster",
+    "description": "Removes old Spark code and reboots cluster",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Uninstall code from $(clusterid)",
+    "inputs": [
+        {
+            "name": "clusterid",
+            "type": "string",
+            "label": "Cluster ID",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The ID of the Cluster to be uninstall spark code from"
+        },
+        {
+            "name": "libraryfilename",
+            "type": "string",
+            "label": "Library file name",
+            "defaultValue": "sparkcode.jar",
+            "required": true,
+            "helpMarkDown": "The JAR file name of the library to be uninstalled from the cluster"
+        },
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": ""
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "uninstallcodefromcluster.js"
+        }
+    }
+}

@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
     "id": "azdo-databricks",
-    "name": "DevOps for Azure Databricks",
-    "version": "0.1.12",
+    "name": "BT-DevOps for Azure Databricks",
+    "version": "0.1.17",
     "publisher": "riserrad",
     "targets": [
         {
@@ -37,6 +37,27 @@
         },
         {
             "path": "tasks/WaitExecution"
+        },
+        {
+            "path": "tasks/Scala/StartCluster"
+        },
+        {
+            "path": "tasks/Scala/InstallScalaTools"
+        },
+        {
+            "path": "tasks/Scala/InstallSpark"
+        },
+        {
+            "path": "tasks/Scala/RunSbtTests"
+        },
+        {
+            "path": "tasks/Scala/UninstallCodeFromCluster"
+        },
+        {
+            "path": "tasks/Scala/WaitForClusterReboot"
+        },
+        {
+            "path": "tasks/Scala/CompileInstallJar"
         }
     ],
     "contributions": [
@@ -78,6 +99,76 @@
             ],
             "properties": {
                 "name": "tasks/WaitExecution"
+            }
+        },
+        {
+            "id": "azdo-databricks-startcluster",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/StartCluster"
+            }
+        },
+        {
+            "id": "azdo-databricks-installscalatools",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/InstallScalaTools"
+            }
+        },
+        {
+            "id": "azdo-databricks-installspark",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/InstallSpark"
+            }
+        },
+        {
+            "id": "azdo-databricks-runsbttests",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/RunSbtTests"
+            }
+        },
+        {
+            "id": "azdo-databricks-uninstallcodefromcluster",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/UninstallCodeFromCluster"
+            }
+        },
+        {
+            "id": "azdo-databricks-waitforclusterreboot",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/WaitForClusterReboot"
+            }
+        },
+        {
+            "id": "azdo-databricks-compileinstalljar",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/Scala/CompileInstallJar"
             }
         }
     ]

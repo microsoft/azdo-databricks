@@ -1,0 +1,30 @@
+{
+    "id": "F8A140D7-A179-4D5A-99D4-35ADBE6D5081",
+    "name": "runsbttests",
+    "friendlyName": "Run SBT Tests",
+    "description": "Run SBT Tests on a given folder",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Run SBT Tests on $(workingDirectory)",
+    "inputs": [
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The directory to run SBT tests on"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "runsbttests.js"
+        }
+    }
+}

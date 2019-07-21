@@ -1,20 +1,20 @@
 {
-  "name": "executenotebook",
-  "version": "0.1.0",
-  "description": "Invokes a Databricks Notebook execution from a Workspace",
-  "main": "executeNotebook.js",
+  "name": "compileinstalljar",
+  "version": "1.0.0",
+  "description": "Compiles and Installs the JAR file",
+  "main": "compileinstalljar.js",
   "scripts": {
-    "build": "tsc"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/microsoft/azdo-databricks.git"
   },
   "keywords": [
-    "azdo",
-    "devops",
+    "azure",
     "databricks",
-    "data"
+    "scala",
+    "devops"
   ],
   "author": "Microsoft DevLabs",
   "license": "MIT",
@@ -23,10 +23,11 @@
   },
   "homepage": "https://github.com/microsoft/azdo-databricks#readme",
   "dependencies": {
+    "@types/shelljs": "^0.8.5",
     "azure-pipelines-task-lib": "^2.8.0"
   },
   "devDependencies": {
-    "@types/node": "^12.0.8",
+    "@types/node": "^12.6.2",
     "@types/q": "^1.5.2"
   }
 }

@@ -1,0 +1,38 @@
+{
+    "id": "75E7F77C-8FF4-4B1C-A993-276ECC5922D2",
+    "name": "waitforclusterreboot",
+    "friendlyName": "Wait for Cluster Reboot",
+    "description": "Wait for a reboot of a given cluster",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Wait the reboot of cluster $(clusterid) ",
+    "inputs": [
+        {
+            "name": "clusterid",
+            "type": "string",
+            "label": "Cluster ID",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The ID of the Cluster to be monitored"
+        },
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": ""
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "waitforclusterreboot.js"
+        }
+    }
+}
