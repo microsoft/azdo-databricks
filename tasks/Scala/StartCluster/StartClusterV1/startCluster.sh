@@ -26,9 +26,9 @@ lookfor=RUNNING
 clusterStatus=$(databricks clusters get --cluster-id $clusterid --profile AZDO | jq -r .state)
 if [ "$clusterStatus" != "$lookfor" ]
 then
-   echo "cluster not running, so turn on"
+   echo "Cluster $clusterid not running, turning on..."
 else
-   echo "cluster already running, so exit"
+   echo "Cluster $clusterid already running, skipping..."
    exit 0
 fi
 

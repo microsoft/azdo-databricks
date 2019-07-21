@@ -11,13 +11,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const shell = require("shelljs");
 const path = require("path");
 const tl = require("azure-pipelines-task-lib");
-function startCluster(clusterid) {
+function startCluster(clusterid, failOnStderr) {
     return __awaiter(this, void 0, void 0, function* () {
         let fileName = 'startCluster.sh';
         let filePath = path.join(__dirname, fileName);
         let startClusterExec = shell.exec(`bash ${filePath} ${clusterid}`);
         if (startClusterExec.code != 0) {
             tl.setResult(tl.TaskResult.Failed, `Error while executing command: ${startClusterExec.stderr}`);
+        }
+        if (failOnStderr && startClusterExec.stderr != "") {
+            tl.setResult(tl.TaskResult.Failed, `Command wrote to stderr: ${startClusterExec.stderr}`);
         }
     });
 }
@@ -26,11 +29,12 @@ function run() {
         try {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
             const clusterid = tl.getInput('clusterid', true);
+            const failOnStderr = tl.getBoolInput('failOnStderr', false);
             if (!shell.which('databricks')) {
                 tl.setResult(tl.TaskResult.Failed, "databricks-cli was not found. Use the task 'Configure Databricks CLI' to install and configure it.");
             }
             else {
-                yield startCluster(clusterid);
+                yield startCluster(clusterid, failOnStderr);
             }
         }
         catch (err) {
