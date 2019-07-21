@@ -48,10 +48,10 @@ waitClusterReboot() {
     echo "Status: $clusterStatus"
 
     if [ "$clusterStatus" == "TERMINATED" ]
-    do
+    then
         echo "The cluster $clusterid is not rebooting."
         exit 1
-    done
+    fi
 
     while [ "$clusterStatus" != "$lookfor" ]
     do
