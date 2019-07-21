@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "azdo-databricks",
-    "name": "BT-DevOps for Azure Databricks",
+    "name": "DevOps for Azure Databricks",
     "version": "0.1.17",
     "publisher": "riserrad",
     "targets": [
