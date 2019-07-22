@@ -43,12 +43,12 @@ function run() {
             let exitCode = yield bash.exec(options);
             let result = tl.TaskResult.Succeeded;
             if (exitCode !== 0) {
-                tl.error(tl.loc('JS_ExitCode', exitCode));
+                tl.error("Bash exited with code " + exitCode);
                 result = tl.TaskResult.Failed;
             }
             // Fail on stderr.
             if (stderrFailure) {
-                tl.error(tl.loc('JS_Stderr'));
+                tl.error("Bash wrote one or more lines to the standard error stream.");
                 result = tl.TaskResult.Failed;
             }
             tl.setResult(result, "", true);

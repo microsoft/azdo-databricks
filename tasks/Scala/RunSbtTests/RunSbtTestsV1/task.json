@@ -19,7 +19,16 @@
             "label": "Working Directory",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "The directory to run SBT tests on"
+            "helpMarkDown": "The source folder where your `build.sbt` lives. <br><br>You can also use build/release variables like:<br>- Build: `$(Build.SourcesDirectory)`<br>- Release: `$(System.DefaultWorkingDirectory)`"
+        },
+        {
+            "name": "failOnStderr",
+            "type": "boolean",
+            "label": "Fail on Standard Error",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream.",
+            "groupName": "compilePack"
         }
     ],
     "execution": {

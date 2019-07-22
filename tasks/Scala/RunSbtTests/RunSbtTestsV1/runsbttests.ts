@@ -1,60 +1,30 @@
 import path = require('path')
 import tl = require('azure-pipelines-task-lib');
-import tr = require('azure-pipelines-task-lib/toolrunner')
+import shell = require('shelljs');
 
 async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
+        const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
         const workingDirectory: string = tl.getInput('workingDirectory', false);
 
         if(workingDirectory != ''){
-            tl.cd(workingDirectory);
+            shell.cd(workingDirectory);
         }
                         
-        let bashPath: string = tl.which('bash', true);
         let fileName = 'runsbttests.sh'
         let filePath = path.join(__dirname, fileName);
 
-        let bash = tl.tool(bashPath);
+        let runSbtExec = shell.exec(`bash ${filePath}`)
 
-        bash.arg([
-            filePath
-        ]);
-
-        let options = <tr.IExecOptions>{
-            cwd: __dirname,
-            env: {},
-            silent: false,
-            failOnStdErr: false,
-            errStream: process.stdout,
-            outStream: process.stdout,
-            ignoreReturnCode: true,
-            windowsVerbatimArguments: false
-        };
-
-        // Listen for stderr.
-        let stderrFailure = false;
-        bash.on('stderr', (data) => {
-            stderrFailure = true;
-        });
-
-        let exitCode: number = await bash.exec(options);
-
-        let result = tl.TaskResult.Succeeded;
-
-        if (exitCode !== 0) {
-            tl.error("Bash exited with code " + exitCode);
-            result = tl.TaskResult.Failed
+        if(runSbtExec.code != 0) {
+            tl.setResult(tl.TaskResult.Failed, `Error while executing command: ${runSbtExec.stderr}`);
         }
-
-        // Fail on stderr.
-        if (stderrFailure) {
-            tl.error("Bash wrote one or more lines to the standard error stream.");
-            result = tl.TaskResult.Failed;
+    
+        if(failOnStderr && runSbtExec.stderr != ""){
+            tl.setResult(tl.TaskResult.Failed, `Command wrote to stderr: ${runSbtExec.stderr}`);
         }
-
-        tl.setResult(result, "", true);
     }
     catch (err) {
         tl.setResult(tl.TaskResult.Failed, err.message);
