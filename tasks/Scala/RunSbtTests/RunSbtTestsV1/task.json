@@ -27,8 +27,7 @@
             "label": "Fail on Standard Error",
             "defaultValue": "false",
             "required": false,
-            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream.",
-            "groupName": "compilePack"
+            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream."
         }
     ],
     "execution": {

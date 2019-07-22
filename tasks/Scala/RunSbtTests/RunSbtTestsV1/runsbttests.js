@@ -7,55 +7,63 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const path = require("path");
-const tl = require("azure-pipelines-task-lib");
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+exports.__esModule = true;
+var path = require("path");
+var tl = require("azure-pipelines-task-lib");
+var shell = require("shelljs");
 function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            tl.setResourcePath(path.join(__dirname, 'task.json'));
-            const workingDirectory = tl.getInput('workingDirectory', false);
-            if (workingDirectory != '') {
-                tl.cd(workingDirectory);
+    return __awaiter(this, void 0, void 0, function () {
+        var failOnStderr, workingDirectory, fileName, filePath, runSbtExec;
+        return __generator(this, function (_a) {
+            try {
+                tl.setResourcePath(path.join(__dirname, 'task.json'));
+                failOnStderr = tl.getBoolInput('failOnStderr', false);
+                workingDirectory = tl.getInput('workingDirectory', false);
+                if (workingDirectory != '') {
+                    shell.cd(workingDirectory);
+                }
+                fileName = 'runsbttests.sh';
+                filePath = path.join(__dirname, fileName);
+                runSbtExec = shell.exec("bash " + filePath);
+                if (runSbtExec.code != 0) {
+                    tl.setResult(tl.TaskResult.Failed, "Error while executing command: " + runSbtExec.stderr);
+                }
+                if (failOnStderr && runSbtExec.stderr != "") {
+                    tl.setResult(tl.TaskResult.Failed, "Command wrote to stderr: " + runSbtExec.stderr);
+                }
             }
-            let bashPath = tl.which('bash', true);
-            let fileName = 'runsbttests.sh';
-            let filePath = path.join(__dirname, fileName);
-            let bash = tl.tool(bashPath);
-            bash.arg([
-                filePath
-            ]);
-            let options = {
-                cwd: __dirname,
-                env: {},
-                silent: false,
-                failOnStdErr: false,
-                errStream: process.stdout,
-                outStream: process.stdout,
-                ignoreReturnCode: true,
-                windowsVerbatimArguments: false
-            };
-            // Listen for stderr.
-            let stderrFailure = false;
-            bash.on('stderr', (data) => {
-                stderrFailure = true;
-            });
-            let exitCode = yield bash.exec(options);
-            let result = tl.TaskResult.Succeeded;
-            if (exitCode !== 0) {
-                tl.error("Bash exited with code " + exitCode);
-                result = tl.TaskResult.Failed;
+            catch (err) {
+                tl.setResult(tl.TaskResult.Failed, err.message);
             }
-            // Fail on stderr.
-            if (stderrFailure) {
-                tl.error("Bash wrote one or more lines to the standard error stream.");
-                result = tl.TaskResult.Failed;
-            }
-            tl.setResult(result, "", true);
-        }
-        catch (err) {
-            tl.setResult(tl.TaskResult.Failed, err.message);
-        }
+            return [2 /*return*/];
+        });
     });
 }
 run();

@@ -13,7 +13,6 @@ const tl = require("azure-pipelines-task-lib");
 const shell = require("shelljs");
 function uninstallLibsFromCluster() {
     try {
-        tl.setResourcePath(path.join(__dirname, 'task.json'));
         const failOnStderr = tl.getBoolInput('failOnStderr', false);
         const libraryfilename = tl.getInput('libraryfilename', true);
         const clusterid = tl.getInput('clusterid', true);
