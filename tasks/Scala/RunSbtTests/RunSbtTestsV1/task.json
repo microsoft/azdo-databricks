@@ -22,6 +22,14 @@
             "helpMarkDown": "The source folder where your `build.sbt` lives. <br><br>You can also use build/release variables like:<br>- Build: `$(Build.SourcesDirectory)`<br>- Release: `$(System.DefaultWorkingDirectory)`"
         },
         {
+            "name": "additionalParameters",
+            "type": "string",
+            "label": "Additional Parameters",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "If your tests require additional parameters, use this field. Eg. `DparamName=paramValue`."
+        },
+        {
             "name": "failOnStderr",
             "type": "boolean",
             "label": "Fail on Standard Error",

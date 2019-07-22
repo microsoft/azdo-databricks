@@ -8,6 +8,7 @@ async function run() {
 
         const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
         const workingDirectory: string = tl.getInput('workingDirectory', false);
+        const additionalParameters: string = tl.getInput('additionalParameters', false)
 
         if(workingDirectory != ''){
             shell.cd(workingDirectory);
@@ -16,7 +17,7 @@ async function run() {
         let fileName = 'runsbttests.sh'
         let filePath = path.join(__dirname, fileName);
 
-        let runSbtExec = shell.exec(`bash ${filePath}`)
+        let runSbtExec = shell.exec(`bash ${filePath} ${additionalParameters}`.trim())
 
         if(runSbtExec.code != 0) {
             tl.setResult(tl.TaskResult.Failed, `Error while executing command: ${runSbtExec.stderr}`);
