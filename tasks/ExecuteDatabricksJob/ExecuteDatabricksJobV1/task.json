@@ -1,0 +1,86 @@
+{
+    "id": "98C5EE74-7831-4858-9B86-48C0EB8E7811",
+    "name": "executedatabricksjob",
+    "friendlyName": "Execute Databricks Job",
+    "description": "Runs a Job on Databricks",
+    "helpMarkDown": "Runs a Job on Databricks, based on given parameters. This task is currently able to run JAR jobs and, in the future, will also be able to run Notebooks.",
+    "category": "Utility",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Run Databricks Job on $(clusterid)",
+    "inputs": [
+        {
+            "name": "targetType",
+            "type": "radio",
+            "label": "Job Type",
+            "required": false,
+            "defaultValue": "jarjob",
+            "helpMarkDown": "Type of Job: JAR library or Notebook",
+            "options": {
+                "jarjob": "JAR Job",
+                "notebookjob": "Notebook"
+            }
+        },
+        {
+            "name": "clusterid",
+            "type": "string",
+            "label": "Cluster ID",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The ID of the Cluster to use for running the job."
+        },
+        {
+            "name": "notebookPath",
+            "type": "string",
+            "label": "Notebook path (at workspace)",
+            "visibleRule": "targetType = notebookjob",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The path to the Notebook to be executed (e.g., `/Shared/MyNotebook`)."
+        },
+        {
+            "name": "executionParams",
+            "type": "multiLine",
+            "label": "Notebook parameters",
+            "visibleRule": "targetType = notebookjob",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The parameters to override the ones defined on the Job Configuration File. These will be used on this notebook execution, and should be provided in JSON. i.e., `{\\\"myParameter\\\":\\\"myValue\\\"}`. Quotes should be preceeded by backslash."
+        },
+        {
+            "name": "packageName",
+            "type": "string",
+            "label": "Package Name (JAR file name without extension)",
+            "visibleRule": "targetType = jarjob",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The name of the JAR package you want to execute on the cluster, with no extension."
+        },
+        {
+            "name": "mainClassName",
+            "type": "string",
+            "label": "Main Class name",
+            "visibleRule": "targetType = jarjob",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The name of the main class on the JAR package. E.g `com.company.classname`"
+        },
+        {
+            "name": "failOnStderr",
+            "type": "boolean",
+            "label": "Fail on Standard Error",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream."
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "executedatabricksjob.js"
+        }
+    }
+}

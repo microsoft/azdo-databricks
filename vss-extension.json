@@ -55,6 +55,9 @@
         },
         {
             "path": "tasks/Scala/CompileInstallJar"
+        },
+        {
+            "path": "tasks/ExecuteDatabricksJob"
         }
     ],
     "contributions": [
@@ -156,6 +159,16 @@
             ],
             "properties": {
                 "name": "tasks/Scala/CompileInstallJar"
+            }
+        },
+        {
+            "id": "azdo-databricks-executedatabricksjob",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/ExecuteDatabricksJob"
             }
         }
     ]
