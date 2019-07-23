@@ -54,9 +54,6 @@
             "path": "tasks/Scala/UninstallCodeFromCluster"
         },
         {
-            "path": "tasks/Scala/WaitForClusterReboot"
-        },
-        {
             "path": "tasks/Scala/CompileInstallJar"
         }
     ],
@@ -149,16 +146,6 @@
             ],
             "properties": {
                 "name": "tasks/Scala/UninstallCodeFromCluster"
-            }
-        },
-        {
-            "id": "azdo-databricks-waitforclusterreboot",
-            "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "tasks/Scala/WaitForClusterReboot"
             }
         },
         {
