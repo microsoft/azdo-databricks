@@ -1,13 +1,14 @@
 name: 0.6$(Rev:.r)
 trigger:
   branches:
-    include:
-    - '*'
     exclude:
     - master
   paths:
     exclude:
     - README.md
+    - CONTRIBUTING.md
+    - LICENSE
+    - 'docs/*'
 
 pool:
   vmImage: "ubuntu-latest"
