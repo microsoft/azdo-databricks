@@ -86,3 +86,5 @@ npm-debug.log
 .override-file.json
 tasks/ExecuteNotebook/ExecuteNotebookV1/job-configuration.json
 .taskkey
+tasks/ExecuteDatabricksJob/ExecuteDatabricksJobV1/job-configuration.json
+tasks/ExecuteDatabricksJob/ExecuteDatabricksJobV1/last-run.txt

@@ -22,6 +22,7 @@
 clusterid=$1
 packagename=$2
 mainclassname=$3
+additionalparams=$4
 
 echo "Run a job"
 cat > job-configuration.json << EOF
@@ -50,12 +51,15 @@ echo "Job id "$jobid
 echo "=================================="
 
 #---------Run the job
-cat > job-run-configuration.json << EOF
-{
-  "job_id": $jobid
-}
-EOF
-result=$(databricks jobs run-now --job-id $jobid --profile AZDO)
+
+echo "Additional params: $additionalparams"
+
+if [ "$additionalparams" == "" ]; then
+    echo "No additional params passed."
+    result=$(databricks jobs run-now --job-id $jobid --profile AZDO)
+else
+    result=$(databricks jobs run-now --job-id $jobid --jar-params "$additionalparams" --profile AZDO)
+fi
 echo "result = $result"
 runid=`echo $result | jq -r ".run_id"`
 number_in_job=`echo $result | jq ".number_in_job"`

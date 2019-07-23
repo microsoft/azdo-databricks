@@ -70,6 +70,15 @@
             "helpMarkDown": "The name of the main class on the JAR package. E.g `com.company.classname`"
         },
         {
+            "name": "jarParameters",
+            "type": "multiLine",
+            "label": "Additional parameters",
+            "visibleRule": "targetType = jarjob",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Additional parameters to pass to the JAR job. Format example:<br><br>`[\"param1\", \"param2\"]`"
+        },
+        {
             "name": "failOnStderr",
             "type": "boolean",
             "label": "Fail on Standard Error",
