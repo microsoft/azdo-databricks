@@ -23,9 +23,11 @@ clusterid=$1
 packagename=$2
 mainclassname=$3
 additionalparams=$4
+jobrunid=-1
 
-echo "Run a job"
-cat > job-configuration.json << EOF
+createAndRunJob() {
+  echo "Run a job"
+  cat > job-configuration.json << EOF
 {
   "name": "MySparkJob",
   "existing_cluster_id": "$clusterid",
@@ -39,36 +41,67 @@ cat > job-configuration.json << EOF
   }
 }
 EOF
-cat job-configuration.json
+  cat job-configuration.json
 
-result=$(databricks jobs create --json-file job-configuration.json --profile AZDO)
-echo "result = $result"
-echo "Finished creating Databricks Job"
+  result=$(databricks jobs create --json-file job-configuration.json --profile AZDO)
+  echo "result = $result"
+  echo "Finished creating Databricks Job"
 
-jobid=$(echo $result | jq -r ".job_id")
-echo "=================================="
-echo "Job id "$jobid
-echo "=================================="
+  jobid=$(echo $result | jq -r ".job_id")
+  echo "=================================="
+  echo "Job id "$jobid
+  echo "=================================="
 
-#---------Run the job
+  #---------Run the job
 
-echo "Additional params: $additionalparams"
+  echo "Additional params: $additionalparams"
 
-if [ "$additionalparams" == "" ]; then
-    echo "No additional params passed."
-    result=$(databricks jobs run-now --job-id $jobid --profile AZDO)
-else
-    result=$(databricks jobs run-now --job-id $jobid --jar-params "$additionalparams" --profile AZDO)
-fi
-echo "result = $result"
-runid=`echo $result | jq -r ".run_id"`
-number_in_job=`echo $result | jq ".number_in_job"`
-echo "number_in_job = "$number_in_job
+  if [ "$additionalparams" == "" ]; then
+      echo "No additional params passed."
+      result=$(databricks jobs run-now --job-id $jobid --profile AZDO)
+  else
+      result=$(databricks jobs run-now --job-id $jobid --jar-params "$additionalparams" --profile AZDO)
+  fi
+  echo "result = $result"
+  runid=`echo $result | jq -r ".run_id"`
+  number_in_job=`echo $result | jq ".number_in_job"`
+  echo "number_in_job = "$number_in_job
 
-echo "=================================="
-echo "Run id = "$runid
-echo "Number in Job = "$number_in_job
-echo "=================================="
+  echo "=================================="
+  echo "Run id = "$runid
+  echo "Number in Job = "$number_in_job
+  echo "=================================="
+  jobrunid=$runid
+}
 
-echo $runid > last-run.txt
-cat last-run.txt
+waitJobExecution() {
+  echo "run_id = "$jobrunid
+
+  result=$(databricks runs get --run-id $jobrunid --profile AZDO | jq -r '.state.result_state')
+
+  if [ "$result" == "null" ]
+  then
+    while [ "$result" == "null" ]
+    do
+      echo "Job still running..."
+      result=$(databricks runs get --run-id $jobrunid --profile AZDO | jq -r '.state.result_state')
+      sleep 10
+    done
+  fi
+
+  echo "result = $result"
+  if [ "$result" == "SUCCESS" ]
+  then
+    echo "-------------------------------"
+    echo "Success for last run of "$jobrunid
+    echo "-------------------------------"
+  else
+    echo "-------------------------------"
+    echo "Failure for last run of "$jobrunid
+    echo "-------------------------------"
+    exit 1
+  fi
+}
+
+createAndRunJob
+waitJobExecution
