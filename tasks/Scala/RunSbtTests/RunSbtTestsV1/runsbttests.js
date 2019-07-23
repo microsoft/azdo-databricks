@@ -10,48 +10,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const tl = require("azure-pipelines-task-lib");
+const shell = require("shelljs");
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
+            const failOnStderr = tl.getBoolInput('failOnStderr', false);
             const workingDirectory = tl.getInput('workingDirectory', false);
+            const additionalParameters = tl.getInput('additionalParameters', false);
             if (workingDirectory != '') {
-                tl.cd(workingDirectory);
+                shell.cd(workingDirectory);
             }
-            let bashPath = tl.which('bash', true);
             let fileName = 'runsbttests.sh';
             let filePath = path.join(__dirname, fileName);
-            let bash = tl.tool(bashPath);
-            bash.arg([
-                filePath
-            ]);
-            let options = {
-                cwd: __dirname,
-                env: {},
-                silent: false,
-                failOnStdErr: false,
-                errStream: process.stdout,
-                outStream: process.stdout,
-                ignoreReturnCode: true,
-                windowsVerbatimArguments: false
-            };
-            // Listen for stderr.
-            let stderrFailure = false;
-            bash.on('stderr', (data) => {
-                stderrFailure = true;
-            });
-            let exitCode = yield bash.exec(options);
-            let result = tl.TaskResult.Succeeded;
-            if (exitCode !== 0) {
-                tl.error(tl.loc('JS_ExitCode', exitCode));
-                result = tl.TaskResult.Failed;
+            let runSbtExec = shell.exec(`bash ${filePath} ${additionalParameters}`.trim());
+            if (runSbtExec.code != 0) {
+                tl.setResult(tl.TaskResult.Failed, `Error while executing command: ${runSbtExec.stderr}`);
             }
-            // Fail on stderr.
-            if (stderrFailure) {
-                tl.error(tl.loc('JS_Stderr'));
-                result = tl.TaskResult.Failed;
+            if (failOnStderr && runSbtExec.stderr != "") {
+                tl.setResult(tl.TaskResult.Failed, `Command wrote to stderr: ${runSbtExec.stderr}`);
             }
-            tl.setResult(result, "", true);
         }
         catch (err) {
             tl.setResult(tl.TaskResult.Failed, err.message);

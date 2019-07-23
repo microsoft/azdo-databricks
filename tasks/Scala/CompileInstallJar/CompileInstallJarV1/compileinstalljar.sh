@@ -40,8 +40,7 @@ name := "${packagename}"
 version := "${packageversion}"
 scalaVersion := "${scalaversion}"
 EOF
-
-    sbt compile package
+    sudo sbt compile package
 
     compileResult=$?
 
@@ -102,7 +101,7 @@ waitLibraryInstallation() {
         exit 1
     fi
 
-    while [ "$jarstatus" == "INSTALLING" ]
+    while [ "$jarstatus" == "INSTALLING" ] || [ "$jarstatus" == "PENDING" ]
     do
         echo "Installing $packagename.jar on $clusterid..."
 

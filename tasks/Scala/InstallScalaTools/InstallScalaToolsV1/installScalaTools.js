@@ -81,7 +81,7 @@ function run() {
                 cwd: tempDirectory,
                 env: {},
                 silent: false,
-                failOnStdErr: false,
+                failOnStdErr: input_failOnStderr,
                 errStream: process.stdout,
                 outStream: process.stdout,
                 ignoreReturnCode: true,
@@ -89,9 +89,11 @@ function run() {
             };
             // Listen for stderr.
             let stderrFailure = false;
+            let stdErrData = "";
             if (input_failOnStderr) {
                 bash.on('stderr', (data) => {
                     stderrFailure = true;
+                    stdErrData = data;
                 });
             }
             // Run bash.
@@ -104,7 +106,7 @@ function run() {
             }
             // Fail on stderr.
             if (stderrFailure) {
-                tl.error("Bash wrote one or more lines to the standard error stream.");
+                tl.error(`Bash wrote one or more lines to the standard error stream. ${stdErrData}`.trim());
                 result = tl.TaskResult.Failed;
             }
             tl.setResult(result, "", true);

@@ -1,3 +1,4 @@
+additionalparams=$1
 echo "Adding SBT to PATH"
 
 if [[ ":$PATH:" == *":/home/vsts/spark-2.4.3-bin-hadoop2.7/bin:"* ]]; then
@@ -7,8 +8,11 @@ else
   PATH=$PATH:/home/vsts/spark-2.4.3-bin-hadoop2.7/bin
 fi
 
-echo "SBT Test"
-PATH=$PATH:/home/vsts/spark-2.4.3-bin-hadoop2.7/bin
-
 echo "sbt test"
-sudo sbt -v test
+
+if [ "additionalparams" == "" ]
+then
+  sudo sbt -v test
+else
+  sudo sbt $additionalparams -v test
+fi

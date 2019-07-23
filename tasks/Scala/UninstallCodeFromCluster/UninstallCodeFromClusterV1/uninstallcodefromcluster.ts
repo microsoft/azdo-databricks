@@ -1,67 +1,40 @@
 import path = require('path')
 import tl = require('azure-pipelines-task-lib');
-import tr = require('azure-pipelines-task-lib/toolrunner')
+import shell = require('shelljs');
 
-async function run() {
+function uninstallLibsFromCluster() {
     try {
-        tl.setResourcePath(path.join(__dirname, 'task.json'));
-
-        const workingDirectory: string = tl.getInput('workingDirectory', false);
+        const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
         const libraryfilename: string = tl.getInput('libraryfilename', true);
-
-        if(workingDirectory != ''){
-            tl.cd(workingDirectory);
-        }
-        
         const clusterid: string = tl.getInput('clusterid', true);
-        
-        let bashPath: string = tl.which('bash', true);
+
         let fileName = 'uninstallcodefromcluster.sh'
         let filePath = path.join(__dirname, fileName);
 
-        let bash = tl.tool(bashPath);
+        let uninstallExec = shell.exec(`bash ${filePath} ${clusterid} ${libraryfilename}`);
 
-        bash.arg([
-            filePath,
-            clusterid,
-            libraryfilename
-        ]);
-
-        let options = <tr.IExecOptions>{
-            cwd: __dirname,
-            env: {},
-            silent: false,
-            failOnStdErr: false,
-            errStream: process.stdout,
-            outStream: process.stdout,
-            ignoreReturnCode: true,
-            windowsVerbatimArguments: false
-        };
-
-        // Listen for stderr.
-        let stderrFailure = false;
-        bash.on('stderr', (data) => {
-            stderrFailure = true;
-        });
-
-        let exitCode: number = await bash.exec(options);
-
-        let result = tl.TaskResult.Succeeded;
-
-        if (exitCode !== 0) {
-            tl.error("Bash exited with code " + exitCode);
-            result = tl.TaskResult.Failed
+        if(uninstallExec.code != 0){
+            tl.setResult(tl.TaskResult.Failed, `Error while uninstalliing ${libraryfilename} from ${clusterid}: ${uninstallExec.stderr}`);
         }
 
-        // Fail on stderr.
-        if (stderrFailure) {
-            tl.error("Bash wrote one or more lines to the standard error stream.");
-            result = tl.TaskResult.Failed;
+        if(failOnStderr && uninstallExec.stderr != ""){
+            tl.setResult(tl.TaskResult.Failed, `Command wrote to stderr: ${uninstallExec.stderr}`);
         }
-
-        tl.setResult(result, "", true);
+    } catch(err) {
+        tl.setResult(tl.TaskResult.Failed, err.message);
     }
-    catch (err) {
+}
+
+async function run() {
+    try{
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
+
+        if(!shell.which('databricks')){
+            tl.setResult(tl.TaskResult.Failed, "databricks-cli was not found. Use the task 'Configure Databricks CLI' to install and configure it.");
+        } else {
+            await uninstallLibsFromCluster();
+        }
+    } catch(err){
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }

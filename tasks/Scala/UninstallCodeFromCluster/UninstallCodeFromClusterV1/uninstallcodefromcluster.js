@@ -10,50 +10,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const tl = require("azure-pipelines-task-lib");
+const shell = require("shelljs");
+function uninstallLibsFromCluster() {
+    try {
+        const failOnStderr = tl.getBoolInput('failOnStderr', false);
+        const libraryfilename = tl.getInput('libraryfilename', true);
+        const clusterid = tl.getInput('clusterid', true);
+        let fileName = 'uninstallcodefromcluster.sh';
+        let filePath = path.join(__dirname, fileName);
+        let uninstallExec = shell.exec(`bash ${filePath} ${clusterid} ${libraryfilename}`);
+        if (uninstallExec.code != 0) {
+            tl.setResult(tl.TaskResult.Failed, `Error while uninstalliing ${libraryfilename} from ${clusterid}: ${uninstallExec.stderr}`);
+        }
+        if (failOnStderr && uninstallExec.stderr != "") {
+            tl.setResult(tl.TaskResult.Failed, `Command wrote to stderr: ${uninstallExec.stderr}`);
+        }
+    }
+    catch (err) {
+        tl.setResult(tl.TaskResult.Failed, err.message);
+    }
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
-            const workingDirectory = tl.getInput('workingDirectory', false);
-            if (workingDirectory != '') {
-                tl.cd(workingDirectory);
+            if (!shell.which('databricks')) {
+                tl.setResult(tl.TaskResult.Failed, "databricks-cli was not found. Use the task 'Configure Databricks CLI' to install and configure it.");
             }
-            const clusterid = tl.getInput('clusterid', true);
-            let bashPath = tl.which('bash', true);
-            let fileName = 'uninstallcodefromcluster.sh';
-            let filePath = path.join(__dirname, fileName);
-            let bash = tl.tool(bashPath);
-            bash.arg([
-                filePath,
-                clusterid
-            ]);
-            let options = {
-                cwd: __dirname,
-                env: {},
-                silent: false,
-                failOnStdErr: false,
-                errStream: process.stdout,
-                outStream: process.stdout,
-                ignoreReturnCode: true,
-                windowsVerbatimArguments: false
-            };
-            // Listen for stderr.
-            let stderrFailure = false;
-            bash.on('stderr', (data) => {
-                stderrFailure = true;
-            });
-            let exitCode = yield bash.exec(options);
-            let result = tl.TaskResult.Succeeded;
-            if (exitCode !== 0) {
-                tl.error(tl.loc('JS_ExitCode', exitCode));
-                result = tl.TaskResult.Failed;
+            else {
+                yield uninstallLibsFromCluster();
             }
-            // Fail on stderr.
-            if (stderrFailure) {
-                tl.error(tl.loc('JS_Stderr'));
-                result = tl.TaskResult.Failed;
-            }
-            tl.setResult(result, "", true);
         }
         catch (err) {
             tl.setResult(tl.TaskResult.Failed, err.message);

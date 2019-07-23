@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/microsoft/azdo-databricks#readme",
   "dependencies": {
+    "@types/shelljs": "^0.8.5",
     "azure-pipelines-task-lib": "^2.8.0"
   },
   "devDependencies": {
