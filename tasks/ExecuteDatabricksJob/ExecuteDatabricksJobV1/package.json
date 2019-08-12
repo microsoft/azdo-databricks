@@ -1,8 +1,8 @@
 {
-  "name": "waitforclusterreboot",
+  "name": "executedatabricksjob",
   "version": "1.0.0",
-  "description": "Waits for a given cluster to be running",
-  "main": "waitforclusterreboot.js",
+  "description": "Executes a Databricks Job",
+  "main": "executedatabricksjob.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,8 +13,13 @@
   "keywords": [
     "azure",
     "databricks",
+    "spark",
     "devops",
-    "cluster"
+    "notebook",
+    "python",
+    "scala",
+    "jar",
+    "job"
   ],
   "author": "Microsoft DevLabs",
   "license": "MIT",
@@ -23,10 +28,11 @@
   },
   "homepage": "https://github.com/microsoft/azdo-databricks#readme",
   "dependencies": {
+    "@types/shelljs": "^0.8.5",
     "azure-pipelines-task-lib": "^2.8.0"
   },
   "devDependencies": {
-    "@types/node": "^12.6.2",
+    "@types/node": "^12.6.8",
     "@types/q": "^1.5.2"
   }
 }

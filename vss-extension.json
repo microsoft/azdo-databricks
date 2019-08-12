@@ -54,10 +54,10 @@
             "path": "tasks/Scala/UninstallCodeFromCluster"
         },
         {
-            "path": "tasks/Scala/WaitForClusterReboot"
+            "path": "tasks/Scala/CompileInstallJar"
         },
         {
-            "path": "tasks/Scala/CompileInstallJar"
+            "path": "tasks/ExecuteDatabricksJob"
         }
     ],
     "contributions": [
@@ -152,16 +152,6 @@
             }
         },
         {
-            "id": "azdo-databricks-waitforclusterreboot",
-            "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "tasks/Scala/WaitForClusterReboot"
-            }
-        },
-        {
             "id": "azdo-databricks-compileinstalljar",
             "type": "ms.vss-distributed-task.task",
             "targets": [
@@ -169,6 +159,16 @@
             ],
             "properties": {
                 "name": "tasks/Scala/CompileInstallJar"
+            }
+        },
+        {
+            "id": "azdo-databricks-executedatabricksjob",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/ExecuteDatabricksJob"
             }
         }
     ]
