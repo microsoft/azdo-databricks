@@ -1,0 +1,38 @@
+{
+    "id": "95290384-0fd3-4bcf-98e4-5586d81588de",
+    "name": "deployjobs",
+    "friendlyName": "Deploy Databricks Jobs",
+    "description": "Recursively deploys Jobs saved as json files from a given folder to a Databricks workspace",
+    "helpMarkDown": "",
+    "category": "Deploy",
+    "author": "Microsoft DevLabs",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Deploy jobs to Workspace",
+    "inputs": [
+        {
+            "name": "jobsFolderPath",
+            "type": "filePath",
+            "label": "jobs folder",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Specify the path to the folder that contains the jobs to be published to the workspace."
+        },
+        {
+            "name": "deleteMissingJobs",
+            "type": "boolean",
+            "label": "Delete Jobs from Databricks",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If this is true, this task will remove all jobs from Databricks that are not specified in the given folder. Jobs are matched by name.",
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "index.js"
+        }
+    }
+}
