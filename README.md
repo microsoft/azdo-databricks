@@ -179,6 +179,19 @@ specify for this compilation. It will override the value if set on `build.sbt`.
 > [new issue](https://github.com/microsoft/azdo-databricks/issues)
 > on GitHub if you experience any problem.
 
+### Deploy Databricks Jobs
+
+#### Parameters
+
+- **Jobs Folder Path**: a folder that contains the jobs to be deployed. For example:
+  - `$(System.DefaultWorkingDirectory)/<artifact name>/jobs`
+- **Delete Missing Jobs (optional)**: This task will remove jobs that do not exist in the folder from the workspace when this is true.
+
+#### Supported Agents
+
+- Hosted Ubuntu 1604
+- Hosted VS2017
+
 ## Release Notes
 
 Please check the [Release Notes](https://github.com/microsoft/azdo-databricks/blob/master/docs/RELEASENOTES.md)
