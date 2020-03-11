@@ -6,9 +6,9 @@ import { fstat } from 'fs';
 
 async function run() {
     try {
-        const jobsFolderPath: string = tl.getInput('jobsFolderPath', true);
-        var deleteMissingJobs: boolean = tl.getInput('deleteMissingJobs', false);
-        if(!deleteMissingJobs) { deleteMissingJobs = false }
+        const jobsFolderPath: string = tl.getPathInput('jobsFolderPath', true);
+        var deleteMissingJobs: boolean = tl.getBoolInput('deleteMissingJobs', false);
+        if (!deleteMissingJobs) { deleteMissingJobs = false }
 
         if (!isDirSync(jobsFolderPath)) {
             tl.setResult(tl.TaskResult.Failed, 'The specified path for jobs folder is a file.')
@@ -17,7 +17,7 @@ async function run() {
         var existingJobsArray = GetExistingJobs();
         var deployableJobsArray = GetDeployableJobs(jobsFolderPath);
         CreateMissingJobsInDatabricks(existingJobsArray, deployableJobsArray);
-        if(deleteMissingJobs) {
+        if (deleteMissingJobs) {
             DeleteMissingJobs(existingJobsArray, deployableJobsArray);
         }
     }
@@ -44,22 +44,21 @@ class ExistingJob {
 }
 
 function DeleteMissingJobs(existingJobsArray: Array<ExistingJob>, deployableJobsArray: Array<DeployableJob>) {
-    var deployableJobNamesArray = deployableJobsArray.map(function(d) { return d.name; });
-    for(var i in existingJobsArray) {
-        if(deployableJobNamesArray.indexOf(existingJobsArray[i].name) === -1) {
+    var deployableJobNamesArray = deployableJobsArray.map(function (d) { return d.name; });
+    for (var i in existingJobsArray) {
+        if (deployableJobNamesArray.indexOf(existingJobsArray[i].name) === -1) {
             existingJobsArray[i].remove();
         }
     }
 }
 
 function CreateMissingJobsInDatabricks(existingJobsArray: Array<ExistingJob>, deployableJobsArray: Array<DeployableJob>) {
-    var existingJobNamesArray = existingJobsArray.map(function(e) { return e.name });
+    var existingJobNamesArray = existingJobsArray.map(function (e) { return e.name });
     deployableJobsArray.forEach((deployableJob, index) => {
         var existingJob = existingJobsArray.find((existingJob) => existingJob.name === deployableJob.name);
         if (!existingJob) {
             deployableJob.deploy();
-        }
-        else {
+        } else {
             deployableJob.reset(existingJob.id);
         }
     });
@@ -68,11 +67,14 @@ function CreateMissingJobsInDatabricks(existingJobsArray: Array<ExistingJob>, de
 function GetExistingJobs(): Array<ExistingJob> {
     var result: Array<ExistingJob> = [];
     var listResult = tl.execSync('databricks', 'jobs list --output JSON --profile AZDO');
-    //TODO: Check for an error
-    var jobsObject = JSON.parse(listResult.stdout);
-    jobsObject.jobs.forEach((job) => {
-        result.push(new ExistingJob(job.job_id, job.settings.name));
-    });
+    if (listResult.code != 0) {
+        tl.setResult(tl.TaskResult.Failed, "Databricks Job list failed with " + listResult.stderr);
+    } else {
+        var jobsObject = JSON.parse(listResult.stdout);
+        jobsObject.jobs.forEach((job) => {
+            result.push(new ExistingJob(job.job_id, job.settings.name));
+        });
+    }
     return result;
 }
 

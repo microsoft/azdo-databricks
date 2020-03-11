@@ -2,7 +2,7 @@
     "id": "95290384-0fd3-4bcf-98e4-5586d81588de",
     "name": "deployjobs",
     "friendlyName": "Deploy Databricks Jobs",
-    "description": "Recursively deploys Jobs saved as json files from a given folder to a Databricks workspace",
+    "description": "Recursively deploys Jobs saved as json files from a given folder to a Databricks workspace. Each job that does not exist in the Databricks workspace will be created. If the job exists it will be reset.",
     "helpMarkDown": "",
     "category": "Deploy",
     "author": "Microsoft DevLabs",
@@ -27,7 +27,7 @@
             "label": "Delete Jobs from Databricks",
             "defaultValue": "false",
             "required": false,
-            "helpMarkDown": "If this is true, this task will remove all jobs from Databricks that are not specified in the given folder. Jobs are matched by name.",
+            "helpMarkDown": "If this is true, this task will remove all jobs from Databricks that are not specified in JSON files. Jobs are matched by name."
         }
     ],
     "execution": {
