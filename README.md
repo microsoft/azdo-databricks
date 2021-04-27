@@ -1,4 +1,6 @@
-# DevOps for Databricks extension
+# [DEPRECATED] DevOps for Databricks extension
+
+> NOTE: This project is deprecated. I will keep this repo for reference only.
 
 [![Build Status](https://dev.azure.com/serradas-msft/DevOps%20for%20Databricks/_apis/build/status/azdo-databricks-CI?branchName=master)](https://dev.azure.com/serradas-msft/DevOps%20for%20Databricks/_build/latest?definitionId=61&branchName=master)
 
