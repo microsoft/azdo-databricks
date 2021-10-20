@@ -20,7 +20,7 @@ With the new tasks added for supporting Scala Development, the agent support
 is now defined by task. See each task documentation to check
 its compatibility with the available Hosted Agents.
 
-It's strongly recommend that you use *Hosted Ubuntu 1604* for your pipelines.
+It's strongly recommend that you use *Hosted Ubuntu 1604*  and onwards for your pipelines.
 
 ## Pipeline Tasks
 
@@ -37,7 +37,7 @@ Databricks Workspace to connect to.
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 - Hosted VS2017
 
 #### Important: What is done with your Databricks PAT?
@@ -61,7 +61,7 @@ and use the variable reference on the task.
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 - Hosted VS2017
 
 ### Deploy Notebooks to Workspace
@@ -80,7 +80,7 @@ target Workspace. For example:
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 - Hosted VS2017
 
 ### Execute $(notebookPath)
@@ -95,7 +95,7 @@ default parameter values for the notebook. Must be specified in JSON format.
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 - Hosted VS2017
 
 ### Wait for Notebook execution
@@ -124,7 +124,7 @@ the cluster is already started.
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 - Hosted VS2017
 
 ### Install Scala Tools (new!)
@@ -137,7 +137,7 @@ Installs the following tools on the Agent:
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 
 #### Install Spark
 
@@ -145,7 +145,7 @@ Installs Spark libraries on the agent.
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 
 ### Compiles and Installs JAR using SBT (new!)
 
@@ -171,9 +171,15 @@ specify for this compilation. It will override the value if set on `build.sbt`.
 
 #### Supported Agents
 
-- Hosted Ubuntu 1604
+- Hosted Ubuntu 1604 onwards
 
 #### Known issues
+
+**Issue1:** Your CLI is configured to use Jobs API 2.0. In order to use the latest Jobs features please upgrade to 2.1: 'databricks jobs configure --version=2.1'. Future versions of this CLI will default to the new Jobs API.
+
+**Resolution**: 
+The API returns a warning before JSON and the task cannot parse it. You can add a task between CLI configuration and the notebook execution
+```- script: databricks jobs configure --version=2.1 --profile AZDO ```
 
 > Fortunately, no known issues so far. Please feel free to open a
 > [new issue](https://github.com/microsoft/azdo-databricks/issues)
