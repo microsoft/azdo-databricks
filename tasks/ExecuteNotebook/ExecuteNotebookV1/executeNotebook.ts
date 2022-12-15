@@ -116,6 +116,8 @@ class Notebook{
             return;
         }
 
+        tl.setVariable("AZDO_DATABRICKS_JOBID", job.job_id);
+
         let run = this.createRun(job);
 
         if(run == null){
