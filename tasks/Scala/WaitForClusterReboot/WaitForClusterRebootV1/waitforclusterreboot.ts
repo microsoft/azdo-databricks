@@ -6,13 +6,13 @@ async function run() {
     try {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-        const workingDirectory: string = tl.getInput('workingDirectory', false);
+        const workingDirectory: string = tl.getInput('workingDirectory', false)!;
 
         if(workingDirectory != ''){
             tl.cd(workingDirectory);
         }
 
-        const clusterid: string = tl.getInput('clusterid', true);
+        const clusterid: string = tl.getInput('clusterid', true)!;
         
         let bashPath: string = tl.which('bash', true);
         let fileName = 'waitforclusterreboot.sh'
@@ -59,7 +59,7 @@ async function run() {
 
         tl.setResult(result, "", true);
     }
-    catch (err) {
+    catch (err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }

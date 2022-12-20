@@ -4,9 +4,9 @@ import shell = require('shelljs');
 
 function uninstallLibsFromCluster() {
     try {
-        const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
-        const libraryfilename: string = tl.getInput('libraryfilename', true);
-        const clusterid: string = tl.getInput('clusterid', true);
+        const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false)!;
+        const libraryfilename: string = tl.getInput('libraryfilename', true)!;
+        const clusterid: string = tl.getInput('clusterid', true)!;
 
         let fileName = 'uninstallcodefromcluster.sh'
         let filePath = path.join(__dirname, fileName);
@@ -20,7 +20,7 @@ function uninstallLibsFromCluster() {
         if(failOnStderr && uninstallExec.stderr != ""){
             tl.setResult(tl.TaskResult.Failed, `Command wrote to stderr: ${uninstallExec.stderr}`);
         }
-    } catch(err) {
+    } catch(err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
@@ -34,7 +34,7 @@ async function run() {
         } else {
             await uninstallLibsFromCluster();
         }
-    } catch(err){
+    } catch(err: any){
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }

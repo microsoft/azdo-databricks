@@ -7,8 +7,8 @@ async function run() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
-        const workingDirectory: string = tl.getInput('workingDirectory', false);
-        const additionalParameters: string = tl.getInput('additionalParameters', false)
+        const workingDirectory: string = tl.getInput('workingDirectory', false)!;
+        const additionalParameters: string = tl.getInput('additionalParameters', false)!;
 
         if(workingDirectory != ''){
             shell.cd(workingDirectory);
@@ -27,7 +27,7 @@ async function run() {
             tl.setResult(tl.TaskResult.Failed, `Command wrote to stderr: ${runSbtExec.stderr}`);
         }
     }
-    catch (err) {
+    catch (err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
