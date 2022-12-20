@@ -1,7 +1,6 @@
 import shell = require('shelljs');
 import path = require('path');
 import tl = require('azure-pipelines-task-lib');
-import { async } from 'q';
 
 async function startCluster(clusterid: string, failOnStderr: boolean) {
     let fileName = 'startCluster.sh';
@@ -22,7 +21,7 @@ async function run() {
     try{
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-        const clusterid: string = tl.getInput('clusterid', true);
+        const clusterid: string = tl.getInput('clusterid', true)!;
         const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
 
         if(!shell.which('databricks')){
@@ -30,7 +29,7 @@ async function run() {
         } else {
             await startCluster(clusterid, failOnStderr);
         }
-    } catch(err){
+    } catch(err: any){
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }

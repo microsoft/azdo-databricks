@@ -7,9 +7,9 @@ async function run() {
     tl.setResourcePath(path.join(__dirname, 'task.json'));
 
     try {
-        const notebookPath: string = tl.getInput('notebookPath', true);
-        const executionParams: string = tl.getInput('executionParams', false);
-        const existingClusterId: string = tl.getInput('existingClusterId', false);
+        const notebookPath: string = tl.getInput('notebookPath', true)!;
+        const executionParams: string = tl.getInput('executionParams', false)!;
+        const existingClusterId: string = tl.getInput('existingClusterId', false)!;
 
         let notebook = new Notebook(notebookPath, executionParams);
 
@@ -23,7 +23,7 @@ async function run() {
             notebook.execute(existingClusterId);
         }
     }
-    catch (err) {
+    catch (err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
@@ -62,7 +62,7 @@ class Notebook{
 
         try {
             let paramsJson = JSON.parse(this.params);
-        } catch (error) {
+        } catch (error: any) {
             tl.setResult(tl.TaskResult.Failed, error);
 
             return false;
@@ -101,7 +101,7 @@ class Notebook{
             });
 
             return true;
-        } catch (err) {
+        } catch (err: any) {
             tl.setResult(tl.TaskResult.Failed, err);
         }
     }

@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "description": "A set of Pipeline tasks to help add DevOps practices to a Databricks development cycle.",
   "dependencies": {
-    "azure-pipelines-task-lib": "^2.8.0",
+    "azure-pipelines-task-lib": "^4.1.0",
     "recursive-install": "^1.4.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.8",
     "@types/q": "^1.5.2",
-    "tfx-cli": "^0.7.6"
+    "tfx-cli": "^0.12.0"
   },
   "scripts": {
     "recursive-install": "npm-recursive-install",

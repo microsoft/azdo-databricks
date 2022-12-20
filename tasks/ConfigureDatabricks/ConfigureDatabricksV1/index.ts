@@ -9,8 +9,8 @@ import { stringify } from 'querystring';
 
 async function run() {
     try {
-        const url: string = tl.getInput('url', true);
-        const token: string = tl.getInput('token', true);
+        const url: string = tl.getInput('url', true)!;
+        const token: string = tl.getInput('token', true)!;
 
         installDatabricksCli();
         
@@ -18,7 +18,7 @@ async function run() {
 
         let homeDir = os.homedir();
     }
-    catch (err) {
+    catch (err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
@@ -47,7 +47,7 @@ async function configurePat(url:string, token: string){
         
         fs.writeFileSync(databricksCfgPath, content, { flag: "w"});
     }
-    catch (err) {
+    catch (err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }

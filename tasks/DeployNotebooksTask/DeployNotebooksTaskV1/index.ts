@@ -4,8 +4,8 @@ import { fstat } from 'fs';
 
 async function run() {
     try {
-        const notebooksFolderPath: string = tl.getInput('notebooksFolderPath', true);
-        const workspaceFolder: string = tl.getInput('workspaceFolder', true);
+        const notebooksFolderPath: string = tl.getInput('notebooksFolderPath', true)!;
+        const workspaceFolder: string = tl.getInput('workspaceFolder', true)!;
 
         if (!isDirSync(notebooksFolderPath)){
             tl.setResult(tl.TaskResult.Failed, 'The specified path for Notebooks folder is a file.')
@@ -24,7 +24,7 @@ async function run() {
             console.log(importResult.stdout);
         }
     }
-    catch (err) {
+    catch (err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
@@ -32,7 +32,7 @@ async function run() {
 function isDirSync(aPath: string) {
     try {
         return fs.statSync(aPath).isDirectory();
-    } catch (e) {
+    } catch (e: any) {
         if (e.code === 'ENOENT') {
             return false;
         } else {
