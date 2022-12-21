@@ -26,10 +26,11 @@ function startCluster(clusterid, failOnStderr) {
     });
 }
 function run() {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
-            const clusterid = tl.getInput('clusterid', true);
+            const clusterid = (_a = tl.getInput('clusterid', true)) !== null && _a !== void 0 ? _a : '';
             const failOnStderr = tl.getBoolInput('failOnStderr', false);
             if (!shell.which('databricks')) {
                 tl.setResult(tl.TaskResult.Failed, "databricks-cli was not found. Use the task 'Configure Databricks CLI' to install and configure it.");

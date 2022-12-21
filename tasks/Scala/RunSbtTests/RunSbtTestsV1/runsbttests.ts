@@ -7,10 +7,10 @@ async function run() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
-        const workingDirectory: string = tl.getInput('workingDirectory', false)!;
-        const additionalParameters: string = tl.getInput('additionalParameters', false)!;
+        const workingDirectory: string = tl.getInput('workingDirectory', false) ?? '';
+        const additionalParameters: string = tl.getInput('additionalParameters', false) ?? '';
 
-        if(workingDirectory != ''){
+        if(workingDirectory !== ''){
             shell.cd(workingDirectory);
         }
                         

@@ -9,8 +9,8 @@ import { stringify } from 'querystring';
 
 async function run() {
     try {
-        const url: string = tl.getInput('url', true)!;
-        const token: string = tl.getInput('token', true)!;
+        const url: string = tl.getInput('url', true) ?? '';
+        const token: string = tl.getInput('token', true) ?? '';
 
         installDatabricksCli();
         
