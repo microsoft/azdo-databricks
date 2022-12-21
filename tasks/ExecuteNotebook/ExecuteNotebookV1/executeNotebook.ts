@@ -1,15 +1,14 @@
 import tl = require('azure-pipelines-task-lib');
 import path = require('path');
 import fs = require('fs');
-import { utils } from 'mocha';
 
 async function run() {
     tl.setResourcePath(path.join(__dirname, 'task.json'));
 
     try {
-        const notebookPath: string = tl.getInput('notebookPath', true)!;
-        const executionParams: string = tl.getInput('executionParams', false)!;
-        const existingClusterId: string = tl.getInput('existingClusterId', false)!;
+        const notebookPath: string = tl.getInput('notebookPath', true) ?? '';
+        const executionParams: string = tl.getInput('executionParams', false) ?? '';
+        const existingClusterId: string = tl.getInput('existingClusterId', false) ?? '';
 
         let notebook = new Notebook(notebookPath, executionParams);
 
@@ -55,13 +54,15 @@ class Notebook{
     }
 
     isValid(){
-        if (!this.folder.startsWith("/")) {
+        if (this.folder === '' || !this.folder.startsWith("/")) {
             tl.setResult(tl.TaskResult.Failed, 'The Notebook path must start with a forward slash (/).');
             return false;
         }
 
         try {
-            let paramsJson = JSON.parse(this.params);
+            if (this.params != '') {
+                let paramsJson = JSON.parse(this.params);
+            }
         } catch (error: any) {
             tl.setResult(tl.TaskResult.Failed, error);
 
@@ -130,7 +131,7 @@ class Notebook{
 
     private getJobConfigurationFile(existingClusterId: string) {
         let jobTemplatePath: string;
-        if (existingClusterId === null) {
+        if (existingClusterId === '') {
             jobTemplatePath = path.join(__dirname, "job-configuration/new-cluster.json");
         }
         else {

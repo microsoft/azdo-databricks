@@ -4,9 +4,9 @@ import shell = require('shelljs');
 
 function uninstallLibsFromCluster() {
     try {
-        const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false)!;
-        const libraryfilename: string = tl.getInput('libraryfilename', true)!;
-        const clusterid: string = tl.getInput('clusterid', true)!;
+        const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false) ?? '';
+        const libraryfilename: string = tl.getInput('libraryfilename', true) ?? '';
+        const clusterid: string = tl.getInput('clusterid', true) ?? '';
 
         let fileName = 'uninstallcodefromcluster.sh'
         let filePath = path.join(__dirname, fileName);

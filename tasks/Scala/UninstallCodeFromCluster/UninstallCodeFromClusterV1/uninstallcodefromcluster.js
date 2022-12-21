@@ -13,10 +13,11 @@ const path = require("path");
 const tl = require("azure-pipelines-task-lib");
 const shell = require("shelljs");
 function uninstallLibsFromCluster() {
+    var _a, _b, _c;
     try {
-        const failOnStderr = tl.getBoolInput('failOnStderr', false);
-        const libraryfilename = tl.getInput('libraryfilename', true);
-        const clusterid = tl.getInput('clusterid', true);
+        const failOnStderr = (_a = tl.getBoolInput('failOnStderr', false)) !== null && _a !== void 0 ? _a : '';
+        const libraryfilename = (_b = tl.getInput('libraryfilename', true)) !== null && _b !== void 0 ? _b : '';
+        const clusterid = (_c = tl.getInput('clusterid', true)) !== null && _c !== void 0 ? _c : '';
         let fileName = 'uninstallcodefromcluster.sh';
         let filePath = path.join(__dirname, fileName);
         let uninstallExec = shell.exec(`bash ${filePath} ${clusterid} ${libraryfilename}`);
