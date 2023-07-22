@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -11,14 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const tl = require("azure-pipelines-task-lib");
 function run() {
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             tl.setResourcePath(path.join(__dirname, 'task.json'));
-            const workingDirectory = tl.getInput('workingDirectory', false);
-            if (workingDirectory != '') {
+            const workingDirectory = (_a = tl.getInput('workingDirectory', false)) !== null && _a !== void 0 ? _a : '';
+            if (workingDirectory !== '') {
                 tl.cd(workingDirectory);
             }
-            const clusterid = tl.getInput('clusterid', true);
+            const clusterid = (_b = tl.getInput('clusterid', true)) !== null && _b !== void 0 ? _b : '';
             let bashPath = tl.which('bash', true);
             let fileName = 'waitforclusterreboot.sh';
             let filePath = path.join(__dirname, fileName);

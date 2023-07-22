@@ -1,15 +1,14 @@
 import tl = require('azure-pipelines-task-lib');
 import path = require('path');
 import fs = require('fs');
-import { utils } from 'mocha';
 
 async function run() {
     tl.setResourcePath(path.join(__dirname, 'task.json'));
 
     try {
-        const notebookPath: string = tl.getInput('notebookPath', true);
-        const executionParams: string = tl.getInput('executionParams', false);
-        const existingClusterId: string = tl.getInput('existingClusterId', false);
+        const notebookPath: string = tl.getInput('notebookPath', true) ?? '';
+        const executionParams: string = tl.getInput('executionParams', false) ?? '';
+        const existingClusterId: string = tl.getInput('existingClusterId', false) ?? '';
 
         let notebook = new Notebook(notebookPath, executionParams);
 
@@ -23,7 +22,7 @@ async function run() {
             notebook.execute(existingClusterId);
         }
     }
-    catch (err) {
+    catch (err: any) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
@@ -55,14 +54,16 @@ class Notebook{
     }
 
     isValid(){
-        if (!this.folder.startsWith("/")) {
+        if (this.folder === '' || !this.folder.startsWith("/")) {
             tl.setResult(tl.TaskResult.Failed, 'The Notebook path must start with a forward slash (/).');
             return false;
         }
 
         try {
-            let paramsJson = JSON.parse(this.params);
-        } catch (error) {
+            if (this.params != '') {
+                let paramsJson = JSON.parse(this.params);
+            }
+        } catch (error: any) {
             tl.setResult(tl.TaskResult.Failed, error);
 
             return false;
@@ -101,7 +102,7 @@ class Notebook{
             });
 
             return true;
-        } catch (err) {
+        } catch (err: any) {
             tl.setResult(tl.TaskResult.Failed, err);
         }
     }
@@ -116,6 +117,8 @@ class Notebook{
             return;
         }
 
+        tl.setVariable("AZDO_DATABRICKS_JOBID", job.job_id);
+
         let run = this.createRun(job);
 
         if(run == null){
@@ -128,7 +131,7 @@ class Notebook{
 
     private getJobConfigurationFile(existingClusterId: string) {
         let jobTemplatePath: string;
-        if (existingClusterId === null) {
+        if (existingClusterId === '') {
             jobTemplatePath = path.join(__dirname, "job-configuration/new-cluster.json");
         }
         else {

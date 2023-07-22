@@ -4,14 +4,14 @@ import shell = require('shelljs');
 
 async function compileInstallJar(){
     const failOnStderr: boolean = tl.getBoolInput('failOnStderr', false);
-    const clusterid: string = tl.getInput('clusterid', true);
-    const workingDirectory: string = tl.getInput('workingDirectory', false);
-    const packageName: string = tl.getInput('packageName', true);
-    const packageVersion: string = tl.getInput('packageVersion', true);
-    const scalaVersion: string = tl.getInput('scalaVersion', true);
-    const sampleDataSetFilePath: string = tl.getInput('sampleDataSetFilePath', true);
+    const clusterid: string = tl.getInput('clusterid', true) ?? '';
+    const workingDirectory: string = tl.getInput('workingDirectory', false) ?? '';
+    const packageName: string = tl.getInput('packageName', true) ?? '';
+    const packageVersion: string = tl.getInput('packageVersion', true) ?? '';
+    const scalaVersion: string = tl.getInput('scalaVersion', true) ?? '';
+    const sampleDataSetFilePath: string = tl.getInput('sampleDataSetFilePath', true) ?? '';
 
-    if(workingDirectory){
+    if(workingDirectory !== ''){
         shell.cd(workingDirectory);
     }
     
@@ -41,7 +41,7 @@ async function run() {
         } else {
             await compileInstallJar();
         }
-    } catch(err){
+    } catch(err: any){
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
