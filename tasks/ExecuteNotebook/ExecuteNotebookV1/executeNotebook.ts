@@ -156,7 +156,7 @@ class Notebook{
     }
 
     private createJob(jobConfigurationFile: string){
-        let command: string = "jobs create --json-file " + jobConfigurationFile + " --profile AZDO"
+        let command: string = "jobs create --json " + jobConfigurationFile + " --profile AZDO"
 
         let jobCreationCommand = tl.execSync("databricks", command);
 
